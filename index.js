@@ -6,4 +6,4 @@ import signup from './src/screens/signup';
 import Login from './src/screens/Login';
 import Profile from './src/screens/Profile';
 
-AppRegistry.registerComponent(appName, () => OtherInterests);
+AppRegistry.registerComponent(appName, () =>App);

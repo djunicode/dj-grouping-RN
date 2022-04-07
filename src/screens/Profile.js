@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export default function Profile() {
+export default function Profile({navigation}) {
     return (
         <View style={{flex: 1,  backgroundColor: '#FFFFFF'}}>
         <View style={styles.container}>
@@ -25,7 +25,7 @@ export default function Profile() {
         <Text style={styles.text}>Mobile-No:</Text>
         <Text style={styles.text}>DOB:</Text>
         <Text style={styles.text}>Graduating Year:</Text>
-        <Pressable style={styles.button} onPress={() => {}}>
+        <Pressable style={styles.button} onPress={() => navigation.navigate('Interest')}>
                 <Text style={styles.buttontext}>Confirm Details</Text>
         </Pressable>  
         <View style={styles.container1}></View>
