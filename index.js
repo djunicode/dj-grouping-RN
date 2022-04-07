@@ -9,5 +9,5 @@ import signup from './src/screens/signup';
 import Login from './src/screens/Login';
 import Profile from './src/screens/Profile';
 
-AppRegistry.registerComponent(appName, () => Profile);
+AppRegistry.registerComponent(appName, () => Login);
 
