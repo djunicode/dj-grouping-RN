@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export default function Login() {
+export default function Login({navigation}) {
     return (
         <View style={{flex: 1,  backgroundColor: '#FFFFFF'}}>
         <View style={styles.container}>
@@ -36,12 +36,14 @@ export default function Login() {
             placeholderTextColor="#768991"  
           />
         </View>
-        <Pressable style={styles.button} onPress={() => {}}>
+        <Pressable style={styles.button}  onPress={() => navigation.navigate('Profile')}>
                 <Text style={styles.buttontext}>SIGNIN</Text>
         </Pressable>  
         <Text style={styles.text1}>
         Don't have an account?
+        <TouchableOpacity  onPress={() => navigation.navigate('signup')}>
         <Text style={styles.text2}> SIGNUP</Text>
+        </TouchableOpacity>
         </Text>
         <View style={styles.container1}></View>
 
