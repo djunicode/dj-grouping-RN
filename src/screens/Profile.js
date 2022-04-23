@@ -10,6 +10,10 @@ import {
   Pressable,
   TouchableOpacity,
 } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export default function Profile({navigation}) {
     return (
@@ -40,44 +44,42 @@ export default function Profile({navigation}) {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 3,
-        backgroundColor: '#151C20',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        paddingHorizontal: 20,
-        paddingVertical: 30,
-        marginTop:100,
+      height: hp('100%'),
+      backgroundColor: '#151C20',
+      marginTop: hp('12%'),
+      borderTopStartRadius: 50,
+      borderTopRightRadius: 50,
     },
     heading:{
-            marginTop: 2,
-            marginLeft:15,
-            color: '#256EDD',
-            fontSize: 45,
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontFamily: 'Source Sans Pro',
+      marginTop: hp('2%'),
+      marginLeft:hp('5%'),
+      color: '#256EDD',
+      fontSize: 45,
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontFamily: 'Source Sans Pro',
     },
     text:{
-        marginTop: 18,
-        color: '#FFFFFF',
-        marginLeft:15,
-        fontSize: 25,
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontWeight:'bold',
-        fontFamily: 'Source Sans Pro',
+      marginTop: hp('2%'),
+      color: '#FFFFFF',
+      marginLeft:hp('3%'),
+      fontSize: 25,
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontWeight:'bold',
+      fontFamily: 'Source Sans Pro',
 },
 
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    height:50,
-    width:250,
+    height:hp('7%'),
+    width:wp('60%'),
     paddingVertical: 12,
     paddingHorizontal: 32,
-    marginTop:25,
-    marginBottom:15,
-    marginLeft:20,
+    marginTop:hp('4%'),
+    marginBottom:hp('1%'),
+    marginLeft:hp('5%'),
     borderRadius: 15,
     backgroundColor: '#FFC800',
   },
@@ -93,15 +95,15 @@ const styles = StyleSheet.create({
   
 
     container1:{
-        marginTop:50,
-        width: 150,
-        height: 150,
-        backgroundColor:'#256EDD',
-        borderTopLeftRadius:150,
-        borderBottomLeftRadius:0,
-        borderBottomRightRadius:0,
-        borderTopRightRadius:0,
-        marginLeft:230,
+      marginTop:hp('7%'),
+      width: wp('40%'),
+      height: hp('40%'),
+      backgroundColor:'#256EDD',
+      borderTopLeftRadius:hp('40%'),
+      borderBottomLeftRadius:0,
+      borderBottomRightRadius:0,
+      borderTopRightRadius:0,
+      marginLeft:hp('30%'),
       },
   
 
