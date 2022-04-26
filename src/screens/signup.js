@@ -1,4 +1,4 @@
-import React  from 'react';
+import React ,{useState,useEffect}  from 'react';
 import {
   StyleSheet,
   View,
@@ -15,18 +15,59 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
-
 export default function signup({navigation}) {
+  const [email, setemail] = useState('');
+  const [password, setpassword] = useState('');
+  const saveData = () => {
+  console.log(email);
+  var myHeaders = new Headers();
+myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
+var formdata = new FormData();
+formdata.append("email ", email);
+formdata.append("password",password);
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: formdata,
+  redirect: 'follow'
+};
+
+fetch("http://omshukla.pythonanywhere.com/accounts/register/", requestOptions)
+.then(response => response.text())
+.then(result => console.log(result))
+.catch(error => console.log('error', error));
+};
     return (
         <View style={{flex: 1,  backgroundColor: '#FFFFFF'}}>
         <View style={styles.container}>
         <Text style={styles.heading}>Create Account </Text>
         <Text style={styles.text}>Email</Text>
-        <Textfield />
+        {/* <Textfield onChangeText={text => setemail(text)} value={email}  /> */}
+        <View style={styles.inputView}>
+        <TextInput
+          style={styles.inputText}
+          autoCapitalize="none"
+          placeholder="Enter the details "
+          placeholderTextColor="#768991"  
+          onChangeText={text => setemail(text)}
+          value={email}  
+        />
+      </View>
         <Text style={styles.text}>Password</Text>
-        <Textfield />
-        <Pressable style={styles.button} onPress={() => navigation.navigate('Profile')}>
+        {/* <Textfield /> */}
+        <View style={styles.inputView}>
+        <TextInput
+          style={styles.inputText}
+          autoCapitalize="none"
+          placeholder="Enter the details "
+          placeholderTextColor="#768991"  
+          onChangeText={text => setpassword(text)}
+          value={password}
+        />
+      </View>
+
+        <Pressable style={styles.button} onPress={() => {saveData();navigation.navigate('Login')}}>
                 <Text style={styles.buttontext}>SIGNUP</Text>
         </Pressable>  
         <Text style={styles.text1}>
