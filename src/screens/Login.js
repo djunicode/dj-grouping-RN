@@ -59,29 +59,9 @@ var requestOptions = {
         <View style={styles.container}>
         <Text style={styles.heading}>LOGIN </Text>
         <Text style={styles.text}>Email</Text>
-      {/* <Textfield onChangeText={text => setemail(text)} value={email}  /> */}
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          autoCapitalize="none"
-          placeholder="Enter the details "
-          placeholderTextColor="#768991"  
-          onChangeText={text => setemail(text)}
-          value={email}  
-        />
-      </View>
+        <Textfield  title={'Enter email'} function={text => setemail(text)} val={email} ></Textfield>
         <Text style={styles.text}>Password</Text>
-        {/* <Textfield /> */}
-        <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          autoCapitalize="none"
-          placeholder="Enter the details "
-          placeholderTextColor="#768991"  
-          onChangeText={text => setpassword(text)}
-          value={password}
-        />
-      </View>
+        <Textfield  title={'Enter password'} function={text => setpassword(text)} val={password} ></Textfield>
 
         <Pressable style={styles.button}  onPress={() => { saveData();navigation.navigate('Profile')}}>
                 <Text style={styles.buttontext}>SIGNIN</Text>
@@ -174,22 +154,7 @@ container1:{
   borderTopRightRadius:0,
   marginLeft:hp('30%'),
 },
-inputView: {
-  height: hp('6%'),
-  width: wp('75%'),
-  paddingLeft: 10,
-  margin: hp('5%'),
-  marginTop:hp('0%'),
-  marginLeft: hp('5%'),
-  marginBottom:hp('0%'),
-  borderWidth: 1,
-  borderColor: '#A1B1B3',
-  borderStyle: 'solid',
-  borderRadius: 0,
-},
-inputText: {
-  height: 50,
-  color: 'white',
-},
+
+ 
 
 });
