@@ -10,14 +10,16 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const TextField = () => {
+const TextField = (props) => {
     return (
         <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
           autoCapitalize="none"
-          placeholder="Enter the details "
+          placeholder={props.title}
           placeholderTextColor="#768991"  
+          onChangeText={props.function}
+          value={props.val}
         />
       </View>
         );
