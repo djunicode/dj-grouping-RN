@@ -1,4 +1,4 @@
-import React ,{useState,useEffect}  from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -15,107 +15,117 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-export default function signup({navigation}) {
+export default function Signup({navigation}) {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const saveData = () => {
-  console.log(email);
-  var myHeaders = new Headers();
-myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
-var formdata = new FormData();
-formdata.append("email ", email);
-formdata.append("password",password);
+    console.log(email);
+    var myHeaders = new Headers();
+    myHeaders.append(
+      'Cookie',
+      'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg',
+    );
+    var formdata = new FormData();
+    formdata.append('email ', email);
+    formdata.append('password', password);
 
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: formdata,
-  redirect: 'follow'
-};
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formdata,
+      redirect: 'follow',
+    };
 
-fetch("http://omshukla.pythonanywhere.com/accounts/register/", requestOptions)
-.then(response => response.text())
-.then(result => console.log(result))
-.catch(error => console.log('error', error));
-};
-    return (
-        <View style={{flex: 1,  backgroundColor: '#FFFFFF'}}>
-        <View style={styles.container}>
+    fetch(
+      'http://omshukla.pythonanywhere.com/accounts/register/',
+      requestOptions,
+    )
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  };
+  return (
+    <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+      <View style={styles.container}>
         <Text style={styles.heading}>Create Account </Text>
         <Text style={styles.text}>Email</Text>
-         <Textfield  title={'Enter email'} function={text => setemail(text)} val={email} ></Textfield>
+        <Textfield
+          title={'Enter email'}
+          function={text => setemail(text)}
+          val={email}></Textfield>
         <Text style={styles.text}>Password</Text>
-         <Textfield  title={'Enter password'} function={text => setpassword(text)} val={password} ></Textfield>
-        
+        <Textfield
+          title={'Enter password'}
+          function={text => setpassword(text)}
+          val={password}></Textfield>
 
-        <Pressable style={styles.button} onPress={() => {saveData();navigation.navigate('Login')}}>
-                <Text style={styles.buttontext}>SIGNUP</Text>
-        </Pressable>  
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            saveData();
+            navigation.navigate('Login');
+          }}>
+          <Text style={styles.buttontext}>Sign-Up</Text>
+        </Pressable>
+        <View style={{flexDirection:'row',marginTop:10}}>
         <Text style={styles.text1}>
-        Already have an account?
-        <TouchableOpacity  onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.text2}> LOGIN </Text>
-        </TouchableOpacity>
-        </Text>
-        <View style={styles.container1}></View>
-
-
+          Already have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.text2}> Log-in </Text>
+          </TouchableOpacity>
         </View>
-        </View>
-    );
-        
-
-
-
+      </View>
+    </View>
+  );
 }
 const styles = StyleSheet.create({
-    container: {
-      height: hp('100%'),
-      backgroundColor: '#151C20',
-      marginTop: hp('12%'),
-      borderTopStartRadius: 50,
-      borderTopRightRadius: 50,
-    },
-    heading:{
-            marginTop: hp('2%'),
-            marginLeft:hp('5%'),
-            color: '#256EDD',
-            fontSize: 45,
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontFamily: 'Source Sans Pro',
-    },
-    text:{
-        marginTop: hp('4%'),
-        color: '#FFFFFF',
-        marginLeft:hp('5%'),
-        fontSize: 25,
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontWeight:'bold',
-        fontFamily: 'Source Sans Pro',
-},
-  
+  container: {
+    height: hp('100%'),
+    backgroundColor: '#151C20',
+    marginTop: hp('12%'),
+    borderTopStartRadius: 50,
+    borderTopRightRadius: 50,
+   
+  },
+  heading: {
+    marginTop: hp('2%'),
+    marginLeft: hp('5%'),
+    color: '#256EDD',
+    fontSize: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontFamily: 'Source Sans Pro',
+  },
+  text: {
+    marginTop: hp('4%'),
+    color: '#FFFFFF',
+    marginLeft: hp('5%'),
+    fontSize: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontWeight: '600',
+    fontFamily: 'Source Sans Pro',
+  },
+
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    height:hp('7%'),
-    width:wp('60%'),
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    marginTop:hp('7%'),
-    marginBottom:hp('1%'),
-    marginLeft:hp('8%'),
+    height: hp('7%'),
+    width: wp('60%'),
+    padding:2,
+    marginTop: hp('7%'),
+    marginBottom: hp('1%'),
+    marginLeft: hp('8%'),
     borderRadius: 15,
     backgroundColor: '#FFC800',
   },
-  buttontext:{
+  buttontext: {
     color: '#151C20',
     fontSize: 22,
     textAlign: 'center',
     fontFamily: 'Source Sans Pro',
     fontWeight: 'bold',
-    marginTop: 2,
+    //marginTop: 2,
   },
   text1: {
     marginTop: hp('0%'),
@@ -127,17 +137,17 @@ const styles = StyleSheet.create({
   },
   text2: {
     color: '#256EDD',
+    fontSize: 15,
   },
-  container1:{
-    marginTop:hp('13%'),
+  container1: {
+    marginTop: hp('13%'),
     width: wp('40%'),
     height: hp('40%'),
-    backgroundColor:'#256EDD',
-    borderTopLeftRadius:hp('40%'),
-    borderBottomLeftRadius:0,
-    borderBottomRightRadius:0,
-    borderTopRightRadius:0,
-    marginLeft:hp('30%'),
-  }
-
+    backgroundColor: '#256EDD',
+    borderTopLeftRadius: hp('40%'),
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    borderTopRightRadius: 0,
+    marginLeft: hp('30%'),
+  },
 });

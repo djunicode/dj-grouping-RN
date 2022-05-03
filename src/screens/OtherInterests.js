@@ -9,10 +9,19 @@ const OtherInterests = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity>
-        <Image
-          style={{backgroundColor: '#000000',borderRadius:80,height:50,width:50,marginLeft:hp('4%'),marginRight: hp('35%'), marginTop: hp('5%')}}
-          source={require('../assets/left.png')}></Image></TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            style={{
+              backgroundColor: '#000000',
+              borderRadius: 80,
+              height: 50,
+              width: 50,
+              marginLeft: hp('4%'),
+              marginRight: hp('35%'),
+              marginTop: hp('5%'),
+            }}
+            source={require('../assets/left.png')}></Image>
+        </TouchableOpacity>
         <TouchableOpacity>
           <Text style={styles.skip}>Skip</Text>
         </TouchableOpacity>
@@ -61,9 +70,14 @@ const OtherInterests = ({navigation}) => {
             </View>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Image
-          style={{height:50,width:50,marginLeft: hp('50%'), marginTop: hp('1%')}}
-          source={require('../assets/next.png')}></Image>
+            <Image
+              style={{
+                height: 50,
+                width: 50,
+                marginLeft: hp('50%'),
+                marginTop: hp('1%'),
+              }}
+              source={require('../assets/next.png')}></Image>
           </TouchableOpacity>
         </View>
       </View>

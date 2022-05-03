@@ -1,136 +1,160 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import SelectDropdown from 'react-native-select-dropdown'
-import { Icon } from 'react-native-elements';
+import SelectDropdown from 'react-native-select-dropdown';
+import {Icon} from 'react-native-elements';
 
 const Interest = ({navigation}) => {
-  const data = ["Basketball", "Football", "Volleyball", "Hockey"]
+  const data = ['Basketball', 'Football', 'Volleyball', 'Hockey'];
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{flexDirection: 'row'}}>
         <TouchableOpacity>
           <Image
-            style={{ backgroundColor: '#000000',borderRadius:80, height: 50, width: 50, marginLeft: hp('4%'), marginRight: hp('35%'), marginTop: hp('5%') }}
-            source={require('../assets/left.png')}></Image></TouchableOpacity>
-
+            style={{
+              backgroundColor: '#000000',
+              borderRadius: 80,
+              height: 50,
+              width: 50,
+              marginLeft: hp('4%'),
+              marginRight: hp('35%'),
+              marginTop: hp('5%'),
+            }}
+            source={require('../assets/left.png')}></Image>
+        </TouchableOpacity>
       </View>
       <View style={styles.container1}>
         <Text style={styles.header}>Select your Interests</Text>
         <View>
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <View >
-              <Text style={{ margin: 20, color: 'white', fontSize: 25, }}>Sports</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View>
+              <Text style={{margin: 20, color: 'white', fontSize: 25}}>
+                Sports
+              </Text>
             </View>
-            <View style={styles.dropdown} >
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <View style={styles.dropdown}>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <SelectDropdown
-                  dropdownBackgroundColor='#FFFFFF'
+                  dropdownBackgroundColor="#FFFFFF"
                   data={data}
                   statusBarTranslucent
                   //   renderLeftIcon={() => (
-                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/> 
+                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
                   // )}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+                    console.log(selectedItem, index);
                   }}
                   defaultButtonText="Basketball"
                 />
               </View>
             </View>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <View >
-              <Text style={{ margin: 20, color: 'white', fontSize: 25, }}>Sports</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View>
+              <Text style={{margin: 20, color: 'white', fontSize: 25}}>
+                Sports
+              </Text>
             </View>
-            <View style={styles.dropdown} >
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <View style={styles.dropdown}>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <SelectDropdown
-                  dropdownBackgroundColor='#FFFFFF'
+                  dropdownBackgroundColor="#FFFFFF"
                   data={data}
                   statusBarTranslucent
                   //   renderLeftIcon={() => (
-                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/> 
+                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
                   // )}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+                    console.log(selectedItem, index);
                   }}
                   defaultButtonText="Basketball"
                 />
               </View>
             </View>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <View >
-              <Text style={{ margin: 20, color: 'white', fontSize: 25, }}>Sports</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View>
+              <Text style={{margin: 20, color: 'white', fontSize: 25}}>
+                Sports
+              </Text>
             </View>
-            <View style={styles.dropdown} >
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <View style={styles.dropdown}>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <SelectDropdown
-                  dropdownBackgroundColor='#FFFFFF'
+                  dropdownBackgroundColor="#FFFFFF"
                   data={data}
                   statusBarTranslucent
                   //   renderLeftIcon={() => (
-                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/> 
+                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
                   // )}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+                    console.log(selectedItem, index);
                   }}
                   defaultButtonText="Basketball"
                 />
               </View>
             </View>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <View >
-              <Text style={{ margin: 20, color: 'white', fontSize: 25, }}>Sports</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View>
+              <Text style={{margin: 20, color: 'white', fontSize: 25}}>
+                Sports
+              </Text>
             </View>
-            <View style={styles.dropdown} >
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <View style={styles.dropdown}>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <SelectDropdown
-                  dropdownBackgroundColor='#FFFFFF'
+                  dropdownBackgroundColor="#FFFFFF"
                   data={data}
                   statusBarTranslucent
                   //   renderLeftIcon={() => (
-                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/> 
+                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
                   // )}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+                    console.log(selectedItem, index);
                   }}
                   defaultButtonText="Basketball"
                 />
               </View>
             </View>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <View >
-              <Text style={{ margin: 20, color: 'white', fontSize: 25, }}>Sports</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View>
+              <Text style={{margin: 20, color: 'white', fontSize: 25}}>
+                Sports
+              </Text>
             </View>
-            <View style={styles.dropdown} >
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <View style={styles.dropdown}>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <SelectDropdown
-                  dropdownBackgroundColor='#FFFFFF'
+                  dropdownBackgroundColor="#FFFFFF"
                   data={data}
                   statusBarTranslucent
                   //   renderLeftIcon={() => (
-                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/> 
+                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
                   // )}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+                    console.log(selectedItem, index);
                   }}
                   defaultButtonText="Basketball"
                 />
               </View>
             </View>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('OtherInterests')}>
-          <Image
-            style={{ height: 50, width: 50, marginLeft: hp('50%'), marginTop: hp('1%') }}
-            source={require('../assets/next.png')}></Image>
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('OtherInterests')}>
+            <Image
+              style={{
+                height: 50,
+                width: 50,
+                marginLeft: hp('50%'),
+                marginTop: hp('1%'),
+              }}
+              source={require('../assets/next.png')}></Image>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -157,7 +181,6 @@ const styles = StyleSheet.create({
   dropdown: {
     borderRadius: 20,
     margin: 10,
-
   },
   icon: {
     marginRight: 5,
