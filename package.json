@@ -17,6 +17,7 @@
     "react-native": "0.67.4",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^2.3.2",
+    "react-native-image-crop-picker": "^0.37.3",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^3.4.1",
     "react-native-select-dropdown": "^1.9.0",

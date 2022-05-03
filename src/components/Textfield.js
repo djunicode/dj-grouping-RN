@@ -29,9 +29,9 @@ const styles = StyleSheet.create({
     inputView: {
         height: hp('6%'),
         width: wp('75%'),
-        paddingLeft: 10,
+        padding: 2,
         margin: hp('5%'),
-        marginTop:hp('0%'),
+        marginTop:hp('1%'),
         marginLeft: hp('5%'),
         marginBottom:hp('0%'),
         borderWidth: 1,
@@ -40,8 +40,9 @@ const styles = StyleSheet.create({
         borderRadius: 0,
       },
       inputText: {
-        height: 50,
+        //height: 50,
         color: 'white',
+        fontSize:13
       },
 });
 
