@@ -5,5 +5,6 @@ import {name as appName} from './app.json';
 import Signup from './src/screens/Signup';
 import Login from './src/screens/Login';
 import Profile from './src/screens/Profile';
+import Groups from './src/screens/Groups';
 
-AppRegistry.registerComponent(appName, () =>App);
+AppRegistry.registerComponent(appName, () =>Groups);
