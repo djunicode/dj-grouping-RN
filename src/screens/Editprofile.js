@@ -22,9 +22,7 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Editpofile({ navigation }) {
-
     const [Pic, SetPic] = useState('');
-    //For Showing Toast Messages
     const setToastMessage = message => {
         ToastAndroid.showWithGravity(
             message,
