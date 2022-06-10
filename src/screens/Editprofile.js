@@ -80,6 +80,7 @@ export default function Editpofile({ navigation }) {
                             source={profile}
                         />
                     </TouchableHighlight>
+                    <View style={styles.content}>
 
 
                     <Text style={styles.text}>Name: Dishant Zaveri</Text>
@@ -91,6 +92,7 @@ export default function Editpofile({ navigation }) {
                     <Text style={styles.text}>DOB: 08-05-2002</Text>
 
                     <Text style={styles.text}>Mobile No: 9869551340</Text>
+                    </View>
                 </View>
             </View>
         </ScrollView>
@@ -130,6 +132,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center'
+    },
+    content:{
+
+   
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center'
     },
 
 
