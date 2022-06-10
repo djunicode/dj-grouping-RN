@@ -7,4 +7,5 @@ import Login from './src/screens/Login';
 import Profile from './src/screens/Profile';
 import Groups from './src/screens/Groups';
 
-AppRegistry.registerComponent(appName, () =>Groups);
+AppRegistry.registerComponent(appName, () =>App);
+

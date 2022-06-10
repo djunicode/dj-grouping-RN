@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image, ImageBackground} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -11,7 +11,7 @@ const Interest = ({navigation}) => {
   const data = ['Basketball', 'Football', 'Volleyball', 'Hockey'];
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'column'}}>
         <TouchableOpacity>
           <Image
             style={{
@@ -142,18 +142,21 @@ const Interest = ({navigation}) => {
                   defaultButtonText="Basketball"
                 />
               </View>
+              
             </View>
+            
           </View>
           <TouchableOpacity
             onPress={() => navigation.navigate('OtherInterests')}>
-            <Image
+            <ImageBackground
               style={{
                 height: 50,
                 width: 50,
-                marginLeft: hp('50%'),
-                marginTop: hp('1%'),
+                marginLeft: hp('40%'),
+                marginTop: hp('15%'),
+
               }}
-              source={require('../assets/next.png')}></Image>
+              source={require('../assets/next.png')}></ImageBackground>
           </TouchableOpacity>
         </View>
       </View>
@@ -163,6 +166,8 @@ const Interest = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // justifyContent:'space-between',
+    // alignItems:'center'
   },
   skip: {
     fontSize: 25,

@@ -22,7 +22,7 @@ const OtherInterests = ({navigation}) => {
             }}
             source={require('../assets/left.png')}></Image>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Tabs')}>
           <Text style={styles.skip}>Skip</Text>
         </TouchableOpacity>
       </View>
@@ -69,13 +69,14 @@ const OtherInterests = ({navigation}) => {
               <Text style={styles.label}>Karaoke</Text>
             </View>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Tabs')}>
             <Image
               style={{
                 height: 50,
                 width: 50,
-                marginLeft: hp('50%'),
-                marginTop: hp('1%'),
+                marginLeft: hp('40%'),
+                marginTop: hp('5%'),
+
               }}
               source={require('../assets/next.png')}></Image>
           </TouchableOpacity>
@@ -89,10 +90,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   skip: {
-    fontSize: 25,
+    fontSize: 15,
     color: '#256EDD',
     textAlign: 'right',
-    marginRight: hp('6%'),
+   marginRight: wp('6%'),
     marginTop: hp('6%'),
   },
   container1: {
