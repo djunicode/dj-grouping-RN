@@ -6,6 +6,7 @@ import Signup from './src/screens/Signup';
 import OtherInterests from './src/screens/OtherInterests';
 import Interest from './src/screens/Interest';
 import Profile from './src/screens/Profile';
+import Tabs from './src/navigation/Tabs';
 
 const Stack = createStackNavigator();
 function App() {
@@ -37,6 +38,11 @@ function App() {
         <Stack.Screen
           name="Profile"
           component={Profile}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="Tabs"
+          component={Tabs}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
