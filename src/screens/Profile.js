@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -8,7 +8,7 @@ import {
   Alert,
   TextInput,
   Pressable,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
 import Textfield from '../components/Textfield';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -17,11 +17,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 
-export default function Profile({navigation}) {
-  const [uri, setUri] =React.useState(undefined);
-  const [visible, setVisible] = React.useState(false);
+export default function Profile({ navigation }) {
+  const [uri, setUri] = useState(undefined);
+  const [visible, setVisible] = useState(false);
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [branch, setBranch] = useState('');
+  const [yearofpassing, setYearofpassing] = useState('');
+  const [mobileno, setMobileno] = useState('');
+  const [bio, setBio] = useState('wv');
+  const [user, setUser] = useState('3');
   const close = () => setVisible(false);
   const open = () => setVisible(true);
 
@@ -40,7 +47,7 @@ export default function Profile({navigation}) {
       cropping: true,
     }).then(image => {
       setUri(image.path);
-      
+
     });
   };
   const openCamera = () => {
@@ -54,25 +61,102 @@ export default function Profile({navigation}) {
         //props.onChange?.(image);
       })
       .finally(close);
-      //console.log(uri)
+    //console.log(uri)
   };
+
+  const postProfile = async () => {
+    console.log('hi')
+    console.log(firstname)
+    console.log(lastname)
+    console.log(branch)
+    console.log(mobileno)
+    console.log(yearofpassing)
+    console.log(bio)
+    console.log(user)
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
+
+
+    var raw = JSON.stringify({
+      first_name: firstname,
+      last_name: lastname,
+      branch: branch,
+      year_of_passing: yearofpassing,
+      mobile_no : mobileno ,
+      bio: bio,
+      user: user
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    await fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile/", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  }
   return (
     <ScrollView>
-      <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+      <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
         <View style={styles.container}>
-          
-            <Text style={styles.heading}>Profile</Text>
-            <ScrollView>
+
+          <Text style={styles.heading}>Profile</Text>
+          <ScrollView>
             <Pressable style={styles.button} onPress={openCamera}>
               <Text style={styles.buttontext}>Scan Your Barcode id</Text>
             </Pressable>
 
-            <Text style={styles.text}>Name:</Text>
-            <Textfield title={'Enter Name'}></Textfield>
+
+            <Text style={styles.text} >First Name:</Text>
+            {/* <Textfield title={'Enter First Name'} onChangeText={firstname => onChangeText(firstname)}> </Textfield> */}
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                autoCapitalize="none"
+                placeholder ="Enter First Name"     
+                placeholderTextColor="#768991"
+                onChangeText={setFirstname}
+                value={firstname}
+              />
+               </View>
+            <Text style={styles.text} >Last Name:</Text>
+            {/* <Textfield title={'Enter Last Name'} onChangeText={setLastname}></Textfield> */}
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                autoCapitalize="none"
+                placeholder ="Enter Last Name"     
+                placeholderTextColor="#768991"
+                onChangeText={setLastname}
+                value={lastname}
+              />
+               </View>
             <Text style={styles.text}>Sap-id:</Text>
-            <Textfield title={'Enter Sap-id'}></Textfield>
+            {/* <Textfield title={'Enter Sap-id'} ></Textfield> */}
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                autoCapitalize="none"
+                placeholder ="Enter Sap-id"     
+                placeholderTextColor="#768991"
+              />
+               </View>
             <Text style={styles.text}>Graduating Year:</Text>
-            <Textfield title={'Enter Graduating Year'}></Textfield>
+            {/* <Textfield title={'Enter Graduating Year'} onChangeText={setYearofpassing}></Textfield> */}
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                autoCapitalize="none"
+                placeholder ="Enter Graduating Year"     
+                placeholderTextColor="#768991"
+                onChangeText={setYearofpassing}
+                value={yearofpassing}
+              />
+               </View>
             <Text style={styles.text}>Branch:</Text>
             <View style={styles.dropdown}>
               <SelectDropdown
@@ -82,18 +166,31 @@ export default function Profile({navigation}) {
                 //   renderLeftIcon={() => (
                 //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
                 // )}
+
+                // onSelect={(selectedItem, index) => {
+                //   console.log(selectedItem, index);
+                // }}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
+                  setBranch(selectedItem);
                 }}
                 defaultButtonText="Select Branch"
               />
             </View>
             <Text style={styles.text}>Mobile No:</Text>
-            <Textfield title={'Enter Mobile No'}></Textfield>
-
+            {/* <Textfield title={'Enter Mobile No'} onChangeText={setMobileno}></Textfield> */}
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.inputText}
+                autoCapitalize="none"
+                placeholder ="Enter Mobile No."     
+                placeholderTextColor="#768991"
+                onChangeText={setMobileno}
+                value={mobileno}
+              />
+               </View>
             <Pressable
               style={styles.button}
-              onPress={() => navigation.navigate('Interest')}>
+              onPress={() => { postProfile(); navigation.navigate('Interest') }}>
               <Text style={styles.buttontext}>Confirm Details</Text>
             </Pressable>
           </ScrollView>
@@ -171,5 +268,23 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
     borderTopRightRadius: 0,
     marginLeft: hp('30%'),
+  },
+  inputText: {
+    //height: 50,
+    color: 'white',
+    fontSize: 13
+  },
+  inputView: {
+    height: hp('6%'),
+    width: wp('75%'),
+    padding: 2,
+    margin: hp('5%'),
+    marginTop: hp('1%'),
+    marginLeft: hp('5%'),
+    marginBottom: hp('0%'),
+    borderWidth: 1,
+    borderColor: '#A1B1B3',
+    borderStyle: 'solid',
+    borderRadius: 0,
   },
 });

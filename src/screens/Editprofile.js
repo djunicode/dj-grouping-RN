@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     View,
@@ -9,7 +9,8 @@ import {
     TextInput,
     Pressable,
     TouchableOpacity,
-    TouchableHighlight
+    TouchableHighlight,
+    FlatList
 } from 'react-native';
 import Textfield from '../components/Textfield';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -20,9 +21,12 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
+import { ListItem } from 'react-native-elements';
 
 export default function Editpofile({ navigation }) {
     const [Pic, SetPic] = useState('');
+    const [data, setData] = useState([]);
+    const [isLoading, setLoading] = useState(true);
     const setToastMessage = message => {
         ToastAndroid.showWithGravity(
             message,
@@ -63,37 +67,90 @@ export default function Editpofile({ navigation }) {
         setToastMessage('Image removed');
     };
 
+    useEffect(() => {
+        getProfile();
+    }, []);
+
+
+    const getProfile = async () => {
+        // var axios = require('axios');
+
+        // var config = {
+        //   method: 'get',
+        //   url: 'http://omshukla.pythonanywhere.com/dashboard/userprofile-update/1/',
+        //   headers: { 
+        //     'Cookie': 'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg'
+        //   }
+        // };
+
+        // axios(config)
+        // .then(function (response) {
+        //   console.log(JSON.stringify(response.data));
+        //   setData(response.data);
+        //   console.log(data)
+        //         })
+        // .catch(function (error) {
+        //   console.log(error);
+        // });
+
+        var myHeaders = new Headers();
+        myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile/", requestOptions)
+            .then(response => response.json())
+            .then((json) => setData(json))
+            .catch((error) => console.error(error));
+
+    }
+    console.log(data)
+    console.log(data[0].first_name)
+
+
+
     return (
-        <ScrollView>
-            <View style={{ flex: 1 }}>
-                <View style={styles.container}>
+
+        <View style={{ flex: 1 }}>
+            <View style={styles.container}>
+                <TouchableHighlight onPress={() => {
+                    getProfile();
+
+                }}>
 
                     <Text style={styles.heading}>EditProfile</Text>
-                    <TouchableHighlight
-                        onPress={() => uploadImage()}
-                        underlayColor="rgba(0,0,0,0)">
-                        <Image
-                            style={styles.img}
 
-                            source={profile}
-                        />
-                    </TouchableHighlight>
-                    <View style={styles.content}>
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                    onPress={() => uploadImage()}
+                    underlayColor="rgba(0,0,0,0)">
+                    <Image
+                        style={styles.img}
+
+                        source={profile}
+                    />
+                </TouchableHighlight>
+                <View style={styles.content}>
 
 
-                    <Text style={styles.text}>Name: Dishant Zaveri</Text>
+                    <Text style={styles.text}>Name: {data[0].first_name}</Text>
 
-                    <Text style={styles.text}>Sap-id: 60004200090</Text>
+                    <Text style={styles.text}>Sap-id: {data[0].sap_id}</Text>
 
-                    <Text style={styles.text}>Graduating Year: 2024</Text>
+                    <Text style={styles.text}>Graduating Year: {data[0].year_of_passing}</Text>
 
-                    <Text style={styles.text}>DOB: 08-05-2002</Text>
+                    <Text style={styles.text}>Branch: {data[0].branch}</Text>
 
-                    <Text style={styles.text}>Mobile No: 9869551340</Text>
-                    </View>
+                    <Text style={styles.text}>Mobile No: {data[0].mobile_no}</Text>
                 </View>
             </View>
-        </ScrollView>
+        </View>
+
     );
 }
 const styles = StyleSheet.create({
@@ -104,10 +161,10 @@ const styles = StyleSheet.create({
 
     },
     heading: {
-      
+
         marginLeft: wp('40%'),
-        marginTop:hp('1%'),
-        marginBottom:hp('5%'),
+        marginTop: hp('1%'),
+        marginBottom: hp('5%'),
         color: '#FF4E00',
         fontSize: 18,
 
@@ -131,12 +188,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center'
     },
-    content:{
+    content: {
 
-   
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center'
+
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center'
     },
 
 
