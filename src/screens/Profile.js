@@ -28,12 +28,12 @@ export default function Profile({ navigation }) {
   const [yearofpassing, setYearofpassing] = useState('');
   const [mobileno, setMobileno] = useState('');
   const [bio, setBio] = useState('wv');
-  const [user, setUser] = useState('16');
+  const [user, setUser] = useState('');
   const close = () => setVisible(false);
   const open = () => setVisible(true);
   const [data1, setdata1]= useState([]);
     const [isLoading, setLoading] = useState(true);
-    const STORAGE_KEY = '@user_input';
+
     const barcode = 'http://omshukla.pythonanywhere.com/media/profile/default.jpg'
 
 
@@ -70,11 +70,14 @@ export default function Profile({ navigation }) {
   // };
 
   useEffect(() => {
-    readData();
+    postProfile();
   }, []);
 
 
+
   const postProfile = async () => {
+
+    const value = await AsyncStorage.getItem('@user_input');
     console.log('hi')
     console.log(firstname)
     console.log(lastname)
@@ -82,7 +85,7 @@ export default function Profile({ navigation }) {
     console.log(mobileno)
     console.log(yearofpassing)
     console.log(bio)
-    console.log(user)
+    console.log(value)
     console.log(barcode)
     var myHeaders = new Headers();
     myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
@@ -95,7 +98,7 @@ export default function Profile({ navigation }) {
       year_of_passing: yearofpassing,
       mobile_no : mobileno ,
       bio: bio,
-      user: user,
+      user: value,
       barcode :barcode
     });
 
@@ -112,23 +115,24 @@ export default function Profile({ navigation }) {
     .then((response) => response.json())
     .then((json) => setdata1(json))
     .catch((error) => console.error(error));
+
   }
   console.log(data1);
 
 
-  const readData = async () => {
+  // const readData = async () => {
    
-    try {
-      const value = await AsyncStorage.getItem(STORAGE_KEY);
+  //   try {
+  //     const value = await AsyncStorage.getItem(STORAGE_KEY);
   
-      if (value !== null) {
-        setUser(value);
-        console.log(user)
-      }
-    } catch (e) {
-      alert('Failed to fetch the input from storage');
-    }
-  };
+  //     if (value !== null) {
+  //       setUser(value);
+  //       console.log(user)
+  //     }
+  //   } catch (e) {
+  //     alert('Failed to fetch the input from storage');
+  //   }
+  // };
   return (
     <ScrollView>
       <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
@@ -220,18 +224,11 @@ export default function Profile({ navigation }) {
                 value={mobileno}
               />
                </View>
-               <Pressable
-              style={styles.button}
-//navigation.navigate('Interest')
-              
-              onPress={() =>  readData()}>
-              <Text style={styles.buttontext}>userid</Text>
-            </Pressable>
             <Pressable
               style={styles.button}
 //navigation.navigate('Interest')
               
-              onPress={() =>   postProfile()}>
+              onPress={() =>   {postProfile(),navigation.navigate('Interest')}}>
               <Text style={styles.buttontext}>Confirm Details</Text>
             </Pressable>
           </ScrollView>

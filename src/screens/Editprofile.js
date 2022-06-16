@@ -72,29 +72,44 @@ export default function Editpofile({ navigation }) {
     }, []);
 
 
-    const getProfile = async () => {
-        // var axios = require('axios');
-
-        // var config = {
-        //   method: 'get',
-        //   url: 'http://omshukla.pythonanywhere.com/dashboard/userprofile-update/1/',
-        //   headers: { 
-        //     'Cookie': 'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg'
-        //   }
-        // };
-
-        // axios(config)
-        // .then(function (response) {
-        //   console.log(JSON.stringify(response.data));
-        //   setData(response.data);
-        //   console.log(data)
-        //         })
-        // .catch(function (error) {
-        //   console.log(error);
-        // });
+    const editProfile = async () => {
 
         var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
+
+        var raw = JSON.stringify({
+            "first_name": "ombhai",
+            "last_name": "shookla",
+            "branch": "scam",
+            "year_of_passing": 2025,
+            "sap_id": "60004200072",
+            "mobile_no": "+911234512345",
+            "bio": "crbhai",
+            "user": 1,
+            "barcode": "http://omshukla.pythonanywhere.com/media/barcode/OmShukla2024_jeohCWG.jpeg"
+        });
+
+        var requestOptions = {
+            method: 'PATCH',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile-update/4/", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
+    }
+
+
+    const getProfile = async () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
+
+
 
         var requestOptions = {
             method: 'GET',
@@ -102,15 +117,13 @@ export default function Editpofile({ navigation }) {
             redirect: 'follow'
         };
 
-        fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile/", requestOptions)
+        fetch("http://omshukla.pythonanywhere.com//dashboard/userprofile-update/4/", requestOptions)
             .then(response => response.json())
             .then((json) => setData(json))
             .catch((error) => console.error(error));
 
     }
     console.log(data)
-    console.log(data[0].first_name)
-
 
 
     return (
@@ -118,7 +131,7 @@ export default function Editpofile({ navigation }) {
         <View style={{ flex: 1 }}>
             <View style={styles.container}>
                 <TouchableHighlight onPress={() => {
-                    getProfile();
+                    editProfile();
 
                 }}>
 
@@ -132,21 +145,23 @@ export default function Editpofile({ navigation }) {
                     <Image
                         style={styles.img}
 
-                        source={profile}
+
+                        source={{ uri: data.profile_pic }}
+
                     />
                 </TouchableHighlight>
                 <View style={styles.content}>
 
 
-                    <Text style={styles.text}>Name: {data[0].first_name}</Text>
+                    <Text style={styles.text}>Name: {data.first_name}</Text>
 
-                    <Text style={styles.text}>Sap-id: {data[0].sap_id}</Text>
+                    <Text style={styles.text}>Sap-id: {data.sap_id}</Text>
 
-                    <Text style={styles.text}>Graduating Year: {data[0].year_of_passing}</Text>
+                    <Text style={styles.text}>Graduating Year: {data.year_of_passing}</Text>
 
-                    <Text style={styles.text}>Branch: {data[0].branch}</Text>
+                    <Text style={styles.text}>Branch: {data.branch}</Text>
 
-                    <Text style={styles.text}>Mobile No: {data[0].mobile_no}</Text>
+                    <Text style={styles.text}>Mobile No: {data.mobile_no}</Text>
                 </View>
             </View>
         </View>
