@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image, ImageBackground} from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -9,6 +9,40 @@ import {Icon} from 'react-native-elements';
 
 const Interest = ({navigation}) => {
   const data = ['Basketball', 'Football', 'Volleyball', 'Hockey'];
+  const [list, setList] = useState([]);
+  const [field,setfield]=useState('');
+  const addInterest=() => {
+   setList([...list,field]);
+ // setList(l => [
+ //   ...l,
+ //   {
+ //     field
+ //   }
+ // ]);
+  console.log(list)};
+
+  const mainInterest =()=>{
+    var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+var raw = JSON.stringify({
+  "name": list
+  
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("https://omshukla.pythonanywhere.com/dashboard/interest/4/", requestOptions)
+  .then(response => response.json())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+  }
+    
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'column'}}>
@@ -45,7 +79,8 @@ const Interest = ({navigation}) => {
                   //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
                   // )}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
+                    setfield(selectedItem);
+                    addInterest();
                   }}
                   defaultButtonText="Basketball"
                 />
@@ -68,7 +103,33 @@ const Interest = ({navigation}) => {
                   //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
                   // )}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
+                    setfield(selectedItem);
+                    addInterest();
+                  }}
+
+                  defaultButtonText="Basketball"
+                />
+              </View>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View>
+              <Text style={{margin: 20, color: 'white', fontSize: 25}}>
+                Sports
+              </Text>
+            </View>
+            <View style={styles.dropdown}>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <SelectDropdown
+                  dropdownBackgroundColor="#FFFFFF"
+                  data={data}
+                  statusBarTranslucent
+                  //   renderLeftIcon={() => (
+                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
+                  // )}
+                  onSelect={(selectedItem, index) => {
+                    setfield(selectedItem);
+                    addInterest();
                   }}
                   defaultButtonText="Basketball"
                 />
@@ -91,7 +152,8 @@ const Interest = ({navigation}) => {
                   //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
                   // )}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
+                    setfield(selectedItem);
+                    addInterest();
                   }}
                   defaultButtonText="Basketball"
                 />
@@ -114,30 +176,8 @@ const Interest = ({navigation}) => {
                   //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
                   // )}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
-                  }}
-                  defaultButtonText="Basketball"
-                />
-              </View>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <View>
-              <Text style={{margin: 20, color: 'white', fontSize: 25}}>
-                Sports
-              </Text>
-            </View>
-            <View style={styles.dropdown}>
-              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <SelectDropdown
-                  dropdownBackgroundColor="#FFFFFF"
-                  data={data}
-                  statusBarTranslucent
-                  //   renderLeftIcon={() => (
-                  //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
-                  // )}
-                  onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
+                    setfield(selectedItem);
+                    addInterest();
                   }}
                   defaultButtonText="Basketball"
                 />
@@ -147,7 +187,7 @@ const Interest = ({navigation}) => {
             
           </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate('OtherInterests')}>
+            onPress={() =>{mainInterest();navigation.navigate('OtherInterests')}}>
             <ImageBackground
               style={{
                 height: 50,
