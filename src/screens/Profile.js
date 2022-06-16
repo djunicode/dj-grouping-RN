@@ -18,7 +18,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import AsyncStorage from '@react-native-community/async-storage';
 export default function Profile({ navigation }) {
   const [uri, setUri] = useState(undefined);
   const [visible, setVisible] = useState(false);
@@ -28,9 +28,12 @@ export default function Profile({ navigation }) {
   const [yearofpassing, setYearofpassing] = useState('');
   const [mobileno, setMobileno] = useState('');
   const [bio, setBio] = useState('wv');
-  const [user, setUser] = useState('3');
+  const [user, setUser] = useState('15');
   const close = () => setVisible(false);
   const open = () => setVisible(true);
+  const [data1, setdata1]= useState([]);
+    const [isLoading, setLoading] = useState(true);
+
 
   const data = [
     'Select',
@@ -61,7 +64,7 @@ export default function Profile({ navigation }) {
         //props.onChange?.(image);
       })
       .finally(close);
-    //console.log(uri)
+    console.log(uri)
   };
 
   const postProfile = async () => {
@@ -84,8 +87,11 @@ export default function Profile({ navigation }) {
       year_of_passing: yearofpassing,
       mobile_no : mobileno ,
       bio: bio,
-      user: user
+      user: user,
+      barcode:uri
     });
+
+
 
     var requestOptions = {
       method: 'POST',
@@ -95,10 +101,31 @@ export default function Profile({ navigation }) {
     };
 
     await fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile/", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+    .then((response) => response.json())
+    .then((json) => setdata1(json))
+    .catch((error) => console.error(error));
   }
+  console.log(data1);
+
+  useEffect(() => {
+    readData();
+     console.log('hi')
+     console.log(user)
+  }, []);
+
+  const readData = async () => {
+    let STORAGE_KEY = '@user_input';
+    try {
+      const value = await AsyncStorage.getItem(STORAGE_KEY);
+  
+      if (value !== null) {
+        setUser(value);
+        console.log(user)
+      }
+    } catch (e) {
+      alert('Failed to fetch the input from storage');
+    }
+  };
   return (
     <ScrollView>
       <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>

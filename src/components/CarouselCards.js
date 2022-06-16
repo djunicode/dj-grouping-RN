@@ -1,9 +1,8 @@
-import React from "react";
+import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,  Pressable,
 } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from "./CarouselCardItem";
-import data from "./data";
 
 import {
     widthPercentageToDP as wp,
@@ -13,6 +12,28 @@ import {
 const CarouselCards = () => {
   const [index, setIndex] = React.useState(0);
   const isCarousel = React.useRef(null);
+
+  const [data, setdata]= useState([]);
+
+    useEffect(() => {
+        saveData();
+    }, []);
+
+    const saveData = async () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch("http://omshukla.pythonanywhere.com/dashboard/group/", requestOptions)
+            .then((response) => response.json())
+            .then((json) => setdata(json))
+            .catch((error) => console.error(error));
+    };
+
+    console.log(data);
 
   return (
     <View>
