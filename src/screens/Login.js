@@ -10,7 +10,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Textfield from '../components/Textfield';
 import {
   widthPercentageToDP as wp,
@@ -52,13 +52,14 @@ export default function Login({navigation}) {
   // .catch(error => console.log('error', error));
 
   .then((response) => response.json())
-  .then((json) => setdata(json))
+  .then((json) => {console.log(json);setdata(json);  AsyncStorage.setItem(STORAGE_KEY, json.user_id)})
   .catch((error) => console.error(error));
+  
 
 
        //  setTok(result.token);
      
-       //  AsyncStorage.setItem(STORAGE_KEY1, data.user_id);
+       
         // console.log(STORAGE_KEY1);
   };
   // console.log(data);
@@ -66,17 +67,17 @@ export default function Login({navigation}) {
   // console.log('bye');
  // console.log(STORAGE_KEY1);
 
-   const saveToasync = async () => {
+  //  const saveToasync = async () => {
      
-    try {
-      await AsyncStorage.setItem(STORAGE_KEY, data.user_id)
-      alert('Data successfully saved')
-      console.log('Data successfully saved');
-      console.log(STORAGE_KEY);
-    } catch (e) {
-      alert('Failed to save the data to the storage')
-    }
-  } 
+  //   try {
+  //     await AsyncStorage.setItem(STORAGE_KEY, data.user_id)
+  //     alert('Data successfully saved')
+  //     console.log('Data successfully saved');
+  //     console.log(STORAGE_KEY);
+  //   } catch (e) {
+  //     alert('Failed to save the data to the storage')
+  //   }
+  // } 
 
 
 
@@ -99,8 +100,8 @@ export default function Login({navigation}) {
           style={styles.button}
           onPress={() => {
             saveData();
-            saveToasync();
-          //  navigation.navigate('Profile');
+            // saveToasync();
+         navigation.navigate('Profile');
           }}>
           <Text style={styles.buttontext}>Sign-in</Text>
         </Pressable>

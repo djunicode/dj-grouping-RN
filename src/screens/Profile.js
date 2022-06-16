@@ -18,7 +18,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Profile({ navigation }) {
   const [uri, setUri] = useState(undefined);
   const [visible, setVisible] = useState(false);
@@ -28,11 +28,13 @@ export default function Profile({ navigation }) {
   const [yearofpassing, setYearofpassing] = useState('');
   const [mobileno, setMobileno] = useState('');
   const [bio, setBio] = useState('wv');
-  const [user, setUser] = useState('15');
+  const [user, setUser] = useState('16');
   const close = () => setVisible(false);
   const open = () => setVisible(true);
   const [data1, setdata1]= useState([]);
     const [isLoading, setLoading] = useState(true);
+    const STORAGE_KEY = '@user_input';
+    const barcode = 'http://omshukla.pythonanywhere.com/media/profile/default.jpg'
 
 
   const data = [
@@ -43,29 +45,34 @@ export default function Profile({ navigation }) {
     'EXTC',
     'Electrical Engineering',
   ];
-  const pickPicture = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then(image => {
-      setUri(image.path);
+  // const pickPicture = () => {
+  //   ImagePicker.openPicker({
+  //     width: 300,
+  //     height: 400,
+  //     cropping: true,
+  //   }).then(image => {
+  //     setUri(image.path);
 
-    });
-  };
-  const openCamera = () => {
-    ImagePicker.openCamera({
-      width: 300,
-      height: 400,
-      cropping: true,
-    })
-      .then(image => {
-        setUri(image.path);
-        //props.onChange?.(image);
-      })
-      .finally(close);
-    console.log(uri)
-  };
+  //   });
+  // };
+  // const openCamera = () => {
+  //   ImagePicker.openCamera({
+  //     width: 300,
+  //     height: 400,
+  //     cropping: true,
+  //   })
+  //     .then(image => {
+  //       setUri(image.path);
+  //       //props.onChange?.(image);
+  //     })
+  //     .finally(close);
+  //   console.log(uri)
+  // };
+
+  useEffect(() => {
+    readData();
+  }, []);
+
 
   const postProfile = async () => {
     console.log('hi')
@@ -76,6 +83,7 @@ export default function Profile({ navigation }) {
     console.log(yearofpassing)
     console.log(bio)
     console.log(user)
+    console.log(barcode)
     var myHeaders = new Headers();
     myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
 
@@ -88,7 +96,7 @@ export default function Profile({ navigation }) {
       mobile_no : mobileno ,
       bio: bio,
       user: user,
-      barcode:uri
+      barcode :barcode
     });
 
 
@@ -107,14 +115,9 @@ export default function Profile({ navigation }) {
   }
   console.log(data1);
 
-  useEffect(() => {
-    readData();
-     console.log('hi')
-     console.log(user)
-  }, []);
 
   const readData = async () => {
-    let STORAGE_KEY = '@user_input';
+   
     try {
       const value = await AsyncStorage.getItem(STORAGE_KEY);
   
@@ -133,7 +136,9 @@ export default function Profile({ navigation }) {
 
           <Text style={styles.heading}>Profile</Text>
           <ScrollView>
-            <Pressable style={styles.button} onPress={openCamera}>
+            <Pressable style={styles.button} 
+            // onPress={openCamera}
+            >
               <Text style={styles.buttontext}>Scan Your Barcode id</Text>
             </Pressable>
 
@@ -215,9 +220,18 @@ export default function Profile({ navigation }) {
                 value={mobileno}
               />
                </View>
+               <Pressable
+              style={styles.button}
+//navigation.navigate('Interest')
+              
+              onPress={() =>  readData()}>
+              <Text style={styles.buttontext}>userid</Text>
+            </Pressable>
             <Pressable
               style={styles.button}
-              onPress={() => { postProfile(); navigation.navigate('Interest') }}>
+//navigation.navigate('Interest')
+              
+              onPress={() =>   postProfile()}>
               <Text style={styles.buttontext}>Confirm Details</Text>
             </Pressable>
           </ScrollView>
