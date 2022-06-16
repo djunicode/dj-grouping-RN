@@ -24,6 +24,7 @@ export default function Login({navigation}) {
   const [tok, setTok] = useState();
   const [user,setUser] = useState();
   const [data, setdata]= useState([]);
+  const STORAGE_KEY = '@user_input';
   const saveData = async () => {
 
     var myHeaders = new Headers();
@@ -55,25 +56,27 @@ export default function Login({navigation}) {
   .catch((error) => console.error(error));
 
 
-        // setTok(result.token);
+       //  setTok(result.token);
      
-        // AsyncStorage.setItem(STORAGE_KEY1, result.user_id),
-        // console.log(STORAGE_KEY1),
+       //  AsyncStorage.setItem(STORAGE_KEY1, data.user_id);
+        // console.log(STORAGE_KEY1);
   };
-   console.log(data);
-   console.log(data.user_id);
-   console.log('bye');
+  // console.log(data);
+  // console.log(data.user_id);
+  // console.log('bye');
+ // console.log(STORAGE_KEY1);
 
    const saveToasync = async () => {
-    let STORAGE_KEY = '@user_input';
+     
     try {
       await AsyncStorage.setItem(STORAGE_KEY, data.user_id)
       alert('Data successfully saved')
       console.log('Data successfully saved');
+      console.log(STORAGE_KEY);
     } catch (e) {
       alert('Failed to save the data to the storage')
     }
-  }
+  } 
 
 
 
@@ -96,14 +99,15 @@ export default function Login({navigation}) {
           style={styles.button}
           onPress={() => {
             saveData();
-            navigation.navigate('Profile');
+            saveToasync();
+          //  navigation.navigate('Profile');
           }}>
           <Text style={styles.buttontext}>Sign-in</Text>
         </Pressable>
         <View style={{flexDirection:'row',marginTop:10}}>
         <Text style={styles.text1}>
           Don't have an account? </Text>
-          <TouchableOpacity onPress={() => {saveToasync(), navigation.navigate('signup')}}>
+          <TouchableOpacity onPress={() =>  navigation.navigate('signup')}>
             <Text style={styles.text2}> Signup</Text>
           </TouchableOpacity>
        </View>
