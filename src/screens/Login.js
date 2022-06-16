@@ -10,21 +10,21 @@ import {
   Pressable,
   TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 import Textfield from '../components/Textfield';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+
 export default function Login({navigation}) {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [tok, setTok] = useState();
-
-  console.log(email);
+  const [user,setUser] = useState();
+  const [data, setdata]= useState([]);
   const saveData = async () => {
-    const STORAGE_KEY1 = '@save_token';
 
     var myHeaders = new Headers();
     myHeaders.append(
@@ -46,19 +46,37 @@ export default function Login({navigation}) {
       'http://omshukla.pythonanywhere.com/accounts/login/',
       requestOptions,
     )
-      .then(response => response.text())
+  //   .then(response => response.text())
+  // .then(result => console.log(result))
+  // .catch(error => console.log('error', error));
 
-      .then(
-        result => console.log(result),
+  .then((response) => response.json())
+  .then((json) => setdata(json))
+  .catch((error) => console.error(error));
+
 
         // setTok(result.token);
-        // console.log(result.token);
-        // AsyncStorage.setItem(STORAGE_KEY1, result.token);
-        // console.log(STORAGE_KEY1);
-      )
-
-      .catch(error => console.log('error', error));
+     
+        // AsyncStorage.setItem(STORAGE_KEY1, result.user_id),
+        // console.log(STORAGE_KEY1),
   };
+   console.log(data);
+   console.log(data.user_id);
+   console.log('bye');
+
+   const saveToasync = async () => {
+    let STORAGE_KEY = '@user_input';
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, data.user_id)
+      alert('Data successfully saved')
+      console.log('Data successfully saved');
+    } catch (e) {
+      alert('Failed to save the data to the storage')
+    }
+  }
+
+
+
   return (
     <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={styles.container}>
@@ -85,7 +103,7 @@ export default function Login({navigation}) {
         <View style={{flexDirection:'row',marginTop:10}}>
         <Text style={styles.text1}>
           Don't have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+          <TouchableOpacity onPress={() => {saveToasync(), navigation.navigate('signup')}}>
             <Text style={styles.text2}> Signup</Text>
           </TouchableOpacity>
        </View>

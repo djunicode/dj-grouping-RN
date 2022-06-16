@@ -19,7 +19,29 @@ import {
 } from 'react-native-responsive-screen';
 export default function Groups({ navigation }) {
 
-    
+    const [data, setdata]= useState([]);
+
+    useEffect(() => {
+        saveData();
+    }, []);
+
+    const saveData = async () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch("http://omshukla.pythonanywhere.com/dashboard/group/", requestOptions)
+            .then((response) => response.json())
+            .then((json) => setdata(json))
+            .catch((error) => console.error(error));
+    };
+
+    console.log(data);
+
+
     return (
         <View >
             <SafeAreaView style={styles.container1}>

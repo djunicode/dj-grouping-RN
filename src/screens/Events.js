@@ -19,7 +19,6 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Events({ navigation }) {
     const [data, setdata]= useState([]);
