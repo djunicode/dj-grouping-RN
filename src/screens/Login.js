@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -16,6 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { Context as AuthContext } from '../context/AuthContext';
 
 
 export default function Login({navigation}) {
@@ -25,6 +26,7 @@ export default function Login({navigation}) {
   const [user,setUser] = useState();
   const [data, setdata]= useState([]);
   const STORAGE_KEY = '@user_input';
+  const { state, signin } = useContext(AuthContext);
   const saveData = async () => {
 
     var myHeaders = new Headers();
@@ -104,7 +106,8 @@ export default function Login({navigation}) {
         <Pressable
           style={styles.button}
           onPress={() => {
-            saveData();
+            // saveData();
+            signin({ email, password });
             // saveToasync();
          navigation.navigate('Profile');
           }}>
