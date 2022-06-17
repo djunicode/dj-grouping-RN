@@ -128,7 +128,7 @@ fetch("https://omshukla.pythonanywhere.com/dashboard/interest/4/", requestOption
             </View>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() =>{Interest(); navigation.navigate('Tabs')}}>
+          <TouchableOpacity onPress={() =>{Interest(); navigation.navigate('QnA')}}>
             <Image
               style={{
                 height: 50,

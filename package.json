@@ -28,6 +28,8 @@
     "react-native-screens": "^3.13.1",
     "react-native-select-dropdown": "^1.9.0",
     "react-native-snap-carousel": "^3.9.1",
+    "react-native-star-rating-widget": "^1.2.0",
+    "react-native-svg": "^12.3.0",
     "react-native-vector-icons": "^9.1.0"
   },
   "devDependencies": {
