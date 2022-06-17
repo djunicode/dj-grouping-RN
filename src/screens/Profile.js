@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   View,
@@ -8,16 +8,17 @@ import {
   Alert,
   TextInput,
   Pressable,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import Textfield from '../components/Textfield';
 import SelectDropdown from 'react-native-select-dropdown';
 import ImagePicker from 'react-native-image-crop-picker';
+import DocumentPicker, { types } from 'react-native-document-picker';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Profile({ navigation }) {
   const [uri, setUri] = useState(undefined);
@@ -31,11 +32,10 @@ export default function Profile({ navigation }) {
   const [user, setUser] = useState('');
   const close = () => setVisible(false);
   const open = () => setVisible(true);
-  const [data1, setdata1]= useState([]);
-    const [isLoading, setLoading] = useState(true);
-
-    const barcode = 'http://omshukla.pythonanywhere.com/media/profile/default.jpg'
-
+  const [data1, setdata1] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [fileResponse, setFileResponse] = useState([]);
+  const barcode = 'http://omshukla.pythonanywhere.com/media/barcode/OmShukla2024_jeohCWG.jpeg'
 
   const data = [
     'Select',
@@ -45,39 +45,50 @@ export default function Profile({ navigation }) {
     'EXTC',
     'Electrical Engineering',
   ];
-  // const pickPicture = () => {
-  //   ImagePicker.openPicker({
-  //     width: 300,
-  //     height: 400,
-  //     cropping: true,
-  //   }).then(image => {
-  //     setUri(image.path);
+  const pickPicture = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
 
-  //   });
-  // };
-  // const openCamera = () => {
-  //   ImagePicker.openCamera({
-  //     width: 300,
-  //     height: 400,
-  //     cropping: true,
-  //   })
-  //     .then(image => {
-  //       setUri(image.path);
-  //       //props.onChange?.(image);
-  //     })
-  //     .finally(close);
-  //   console.log(uri)
-  // };
+      setUri(image.path);
 
-  useEffect(() => {
-    postProfile();
+    });
+  };
+  const openCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    })
+      .then(image => {
+        setUri(image.path);
+        //props.onChange?.(image);
+      })
+      .finally(close);
+    console.log(uri)
+  };
+
+  const handleDocumentSelection = useCallback(async () => {
+    try {
+      const response = await DocumentPicker.pick({
+        presentationStyle: 'fullScreen',
+        type: [types.images],
+        allowMultiSelection: true,
+      });
+      setFileResponse(response);
+    } catch (err) {
+      console.warn(err);
+    }
   }, []);
-
 
 
   const postProfile = async () => {
 
     const value = await AsyncStorage.getItem('@user_input');
+    console.log('hi')
+    console.log(value)
     console.log('hi')
     console.log(firstname)
     console.log(lastname)
@@ -86,152 +97,138 @@ export default function Profile({ navigation }) {
     console.log(yearofpassing)
     console.log(bio)
     console.log(value)
-    console.log(barcode)
+    console.log(fileResponse)
     var myHeaders = new Headers();
     myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
+    myHeaders.append("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
 
 
-    var raw = JSON.stringify({
-      first_name: firstname,
-      last_name: lastname,
-      branch: branch,
-      year_of_passing: yearofpassing,
-      mobile_no : mobileno ,
-      bio: bio,
-      user: value,
-      barcode :barcode
-    });
-
-
+    var formdata = new FormData();
+    formdata.append("first_name", "omm");
+    formdata.append("last_name", "shaa");
+    formdata.append("branch", "CS");
+    formdata.append("mobile_no", "+91 2267332684");
+    formdata.append("bio", "opppp");
+    formdata.append("user", "16");
+    formdata.append("year_of_passing", "2024");
+    formdata.append("barcode", fileResponse);
 
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
-      body: raw,
+      body: formdata,
       redirect: 'follow'
     };
 
+
     await fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile/", requestOptions)
-    .then((response) => response.json())
-    .then((json) => setdata1(json))
-    .catch((error) => console.error(error));
+      .then((response) => {response.json();console.log(response.status)})
+      .then((json) => setdata1(json))
+      .catch((error) => console.error(error));
 
   }
   console.log(data1);
 
 
-  // const readData = async () => {
-   
-  //   try {
-  //     const value = await AsyncStorage.getItem(STORAGE_KEY);
-  
-  //     if (value !== null) {
-  //       setUser(value);
-  //       console.log(user)
-  //     }
-  //   } catch (e) {
-  //     alert('Failed to fetch the input from storage');
-  //   }
-  // };
   return (
     <ScrollView>
       <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
         <View style={styles.container}>
 
           <Text style={styles.heading}>Profile</Text>
-          <ScrollView>
-            <Pressable style={styles.button} 
-            // onPress={openCamera}
-            >
-              <Text style={styles.buttontext}>Scan Your Barcode id</Text>
-            </Pressable>
+
+          <Pressable style={styles.button}
+            onPress={handleDocumentSelection}
+          >
+            <Text style={styles.buttontext}>Scan Your Barcode id</Text>
+          </Pressable>
 
 
-            <Text style={styles.text} >First Name:</Text>
-            {/* <Textfield title={'Enter First Name'} onChangeText={firstname => onChangeText(firstname)}> </Textfield> */}
-            <View style={styles.inputView}>
+          <Text style={styles.text} >First Name:</Text>
+          {/* <Textfield title={'Enter First Name'} onChangeText={firstname => onChangeText(firstname)}> </Textfield> */}
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              placeholder="Enter First Name"
+              placeholderTextColor="#768991"
+              onChangeText={setFirstname}
+              value={firstname}
+            />
+          </View>
+          <Text style={styles.text} >Last Name:</Text>
+          {/* <Textfield title={'Enter Last Name'} onChangeText={setLastname}></Textfield> */}
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              placeholder="Enter Last Name"
+              placeholderTextColor="#768991"
+              onChangeText={setLastname}
+              value={lastname}
+            />
+          </View>
+          {/* <Text style={styles.text}>Sap-id:</Text> */}
+          {/* <Textfield title={'Enter Sap-id'} ></Textfield> */}
+          {/* <View style={styles.inputView}>
               <TextInput
                 style={styles.inputText}
                 autoCapitalize="none"
-                placeholder ="Enter First Name"     
-                placeholderTextColor="#768991"
-                onChangeText={setFirstname}
-                value={firstname}
-              />
-               </View>
-            <Text style={styles.text} >Last Name:</Text>
-            {/* <Textfield title={'Enter Last Name'} onChangeText={setLastname}></Textfield> */}
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                autoCapitalize="none"
-                placeholder ="Enter Last Name"     
-                placeholderTextColor="#768991"
-                onChangeText={setLastname}
-                value={lastname}
-              />
-               </View>
-            <Text style={styles.text}>Sap-id:</Text>
-            {/* <Textfield title={'Enter Sap-id'} ></Textfield> */}
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                autoCapitalize="none"
-                placeholder ="Enter Sap-id"     
+                placeholder="Enter Sap-id"
                 placeholderTextColor="#768991"
               />
-               </View>
-            <Text style={styles.text}>Graduating Year:</Text>
-            {/* <Textfield title={'Enter Graduating Year'} onChangeText={setYearofpassing}></Textfield> */}
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                autoCapitalize="none"
-                placeholder ="Enter Graduating Year"     
-                placeholderTextColor="#768991"
-                onChangeText={setYearofpassing}
-                value={yearofpassing}
-              />
-               </View>
-            <Text style={styles.text}>Branch:</Text>
-            <View style={styles.dropdown}>
-              <SelectDropdown
-                dropdownBackgroundColor="#256EDD"
-                data={data}
-                statusBarTranslucent
-                //   renderLeftIcon={() => (
-                //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
-                // )}
+            </View> */}
+          <Text style={styles.text}>Graduating Year:</Text>
+          {/* <Textfield title={'Enter Graduating Year'} onChangeText={setYearofpassing}></Textfield> */}
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              placeholder="Enter Graduating Year"
+              placeholderTextColor="#768991"
+              onChangeText={setYearofpassing}
+              value={yearofpassing}
+            />
+          </View>
+          <Text style={styles.text}>Branch:</Text>
+          <View style={styles.dropdown}>
+            <SelectDropdown
+              dropdownBackgroundColor="#256EDD"
+              data={data}
+              statusBarTranslucent
+              //   renderLeftIcon={() => (
+              //      <Icon  style={{backgroundColor:'black',marignLeft:30}} type='font-awesome' name='chevron-down'/>
+              // )}
 
-                // onSelect={(selectedItem, index) => {
-                //   console.log(selectedItem, index);
-                // }}
-                onSelect={(selectedItem, index) => {
-                  setBranch(selectedItem);
-                }}
-                defaultButtonText="Select Branch"
-              />
-            </View>
-            <Text style={styles.text}>Mobile No:</Text>
-            {/* <Textfield title={'Enter Mobile No'} onChangeText={setMobileno}></Textfield> */}
-            <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                autoCapitalize="none"
-                placeholder ="Enter Mobile No."     
-                placeholderTextColor="#768991"
-                onChangeText={setMobileno}
-                value={mobileno}
-              />
-               </View>
-            <Pressable
-              style={styles.button}
-//navigation.navigate('Interest')
-              
-              onPress={() =>   {postProfile(),navigation.navigate('Interest')}}>
-              <Text style={styles.buttontext}>Confirm Details</Text>
-            </Pressable>
-          </ScrollView>
+              // onSelect={(selectedItem, index) => {
+              //   console.log(selectedItem, index);
+              // }}
+              onSelect={(selectedItem, index) => {
+                setBranch(selectedItem);
+              }}
+              defaultButtonText="Select Branch"
+            />
+          </View>
+          <Text style={styles.text}>Mobile No:</Text>
+          {/* <Textfield title={'Enter Mobile No'} onChangeText={setMobileno}></Textfield> */}
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              placeholder="Enter Mobile No."
+              placeholderTextColor="#768991"
+              onChangeText={setMobileno}
+              value={mobileno}
+            />
+          </View>
+          <Pressable
+            style={styles.button}
+            //navigation.navigate('Interest')
+
+            onPress={() => { postProfile(), navigation.navigate('Interest') }}>
+            <Text style={styles.buttontext}>Confirm Details</Text>
+          </Pressable>
+
         </View>
       </View>
     </ScrollView>

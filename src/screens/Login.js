@@ -52,7 +52,12 @@ export default function Login({navigation}) {
   // .catch(error => console.log('error', error));
 
   .then((response) => response.json())
-  .then((json) => {console.log(json);setdata(json);  AsyncStorage.setItem(STORAGE_KEY, json.user_id)})
+  .then((json) => {console.log(json);setdata(json);  
+    let v = json.user_id.toString();
+    console.log(typeof(v));
+    console.log(v)
+      AsyncStorage.setItem(STORAGE_KEY, v)
+  })
   .catch((error) => console.error(error));
   
 
