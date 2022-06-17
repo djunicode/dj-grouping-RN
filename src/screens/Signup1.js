@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -15,7 +15,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-export default function Signup({navigation}) {
+import { Context as AuthContext } from '../context/AuthContext';
+
+export default function Signup1({navigation}) {
+  const { state, signup } = useContext(AuthContext);
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const saveData = () => {
@@ -62,8 +65,9 @@ export default function Signup({navigation}) {
         <Pressable
           style={styles.button}
           onPress={() => {
-            saveData();
-            navigation.navigate('Login');
+            // saveData();
+            signup({ email, password });
+            navigation.navigate('Profile');
           }}>
           <Text style={styles.buttontext}>Sign-Up</Text>
         </Pressable>
