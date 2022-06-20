@@ -43,7 +43,7 @@ const CarouselCards = () => {
       .catch(error => console.error(error));
   };
 
-  const sendData = async () => {
+  const sendJoin = async () => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append(
@@ -53,6 +53,36 @@ const CarouselCards = () => {
 
     var raw = JSON.stringify({
       join: true,
+      user: 4,
+      group: data.group_id,
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+
+    fetch(
+      'http://omshukla.pythonanywhere.com/dashboard/groupreq/',
+      requestOptions,
+    )
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  };
+
+  const sendDecline = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append(
+      'Cookie',
+      'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg',
+    );
+
+    var raw = JSON.stringify({
+      join: false,
       user: 4,
       group: data.group_id,
     });
@@ -89,13 +119,13 @@ const CarouselCards = () => {
         onSnapToItem={index => setIndex(index)}
         useScrollView={true}
       />
-      <Pressable style={styles.button1} onPress={() => sendData()}>
+      <Pressable style={styles.button1} onPress={() => sendJoin()}>
         <Text style={styles.buttontext}>Join</Text>
       </Pressable>
       <Pressable
         style={styles.button2}
         onPress={() => {
-          sendData();
+          sendDecline();
         }}
       >
         <Text style={styles.buttontext}>Decline</Text>
