@@ -133,13 +133,13 @@ export default function Editpofile({navigation}) {
   return (
     <View style={{flex: 1}}>
       <View style={styles.container}>
-        <TouchableHighlight
+        {/* <TouchableHighlight
           onPress={() => {
             editProfile();
           }}
         >
           <Text style={styles.heading}>EditProfile</Text>
-        </TouchableHighlight>
+        </TouchableHighlight> */}
 
         <TouchableHighlight
           onPress={() => uploadImage()}

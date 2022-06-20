@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,8 @@ import {
   Image,
   Pressable,
 } from 'react-native';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
-import CarouselCardItem, {SLIDER_WIDTH, ITEM_WIDTH} from './CarouselCardItem';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem';
 
 import {
   widthPercentageToDP as wp,
@@ -45,62 +45,51 @@ const CarouselCards = () => {
 
   const sendJoin = async () => {
     var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append(
-      'Cookie',
-      'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg',
-    );
-
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
+    
     var raw = JSON.stringify({
-      join: true,
-      user: 4,
-      group: data.group_id,
+      "join": true,
+      "user": 4,
+      "group": 5
     });
-
+    
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: 'follow',
+      redirect: 'follow'
     };
-
-    fetch(
-      'http://omshukla.pythonanywhere.com/dashboard/groupreq/',
-      requestOptions,
-    )
+    
+    fetch("http://omshukla.pythonanywhere.com/dashboard/groupreq/", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
+
   };
 
   const sendDecline = async () => {
     var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append(
-      'Cookie',
-      'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg',
-    );
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
 
-    var raw = JSON.stringify({
-      join: false,
-      user: 4,
-      group: data.group_id,
-    });
+var raw = JSON.stringify({
+  "join": false,
+  "user": 4,
+  "group": 6
+});
 
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
 
-    fetch(
-      'http://omshukla.pythonanywhere.com/dashboard/groupreq/',
-      requestOptions,
-    )
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+fetch("http://omshukla.pythonanywhere.com/dashboard/groupreq/", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
   };
 
   console.log(data);
