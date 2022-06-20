@@ -2,13 +2,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import createDataContext from './createDataContext';
 import React, {useState, useEffect, useContext} from 'react';
 
-const [data, setdata]= useState([]);
+const [data, setdata] = useState([]);
 const STORAGE_KEY = '@user_input';
 
 const authReducer = (state, action) => {
-
   switch (action.type) {
-
     case 'signin':
     case 'signup':
       return {
@@ -21,7 +19,7 @@ const authReducer = (state, action) => {
 };
 
 const signup = dispatch => {
-  return ({ email, password }) => {
+  return ({email, password}) => {
     console.log(email);
     var myHeaders = new Headers();
     myHeaders.append(
@@ -50,15 +48,15 @@ const signup = dispatch => {
 };
 
 const signin = dispatch => {
-  const saveData = async (token) => {
+  const saveData = async token => {
     try {
-      await AsyncStorage.setItem("token", token);
+      await AsyncStorage.setItem('token', token);
     } catch (err) {
       console.log(err);
     }
   };
 
-  return ({ email, password }) => {
+  return ({email, password}) => {
     var token;
     var myHeaders = new Headers();
     myHeaders.append(
@@ -76,25 +74,24 @@ const signin = dispatch => {
       redirect: 'follow',
     };
 
-     fetch(
-      'http://omshukla.pythonanywhere.com/accounts/login/',
-      requestOptions,
-    )
-  //   .then(response => response.text())
-  // .then(result => console.log(result))
-  // .catch(error => console.log('error', error));
+    fetch('http://omshukla.pythonanywhere.com/accounts/login/', requestOptions)
+      //   .then(response => response.text())
+      // .then(result => console.log(result))
+      // .catch(error => console.log('error', error));
 
-  .then((response) => response.json())
-  .then((json) => {console.log(json);setdata(json);  
-    let v = json.user_id.toString();
-    token = json.token;
-    console.log(json.token);
-    saveData(token);
-    console.log(typeof(v));
-    console.log(v)
-      AsyncStorage.setItem(STORAGE_KEY, v)
-  })
-  .catch((error) => console.error(error));
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        setdata(json);
+        let v = json.user_id.toString();
+        token = json.token;
+        console.log(json.token);
+        saveData(token);
+        console.log(typeof v);
+        console.log(v);
+        AsyncStorage.setItem(STORAGE_KEY, v);
+      })
+      .catch(error => console.error(error));
     dispatch({
       type: 'signin',
       payload: {
@@ -105,10 +102,8 @@ const signin = dispatch => {
   };
 };
 
-
-
-export const { Provider, Context } = createDataContext(
+export const {Provider, Context} = createDataContext(
   authReducer,
-  { signin, signup },
-  { token: '', email: '' },
+  {signin, signup},
+  {token: '', email: ''},
 );

@@ -1,4 +1,4 @@
-import React, {useState, useEffect,useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -15,10 +15,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { Context as AuthContext } from '../context/AuthContext';
+import {Context as AuthContext} from '../context/AuthContext';
 
 export default function Signup1({navigation}) {
-  const { state, signup } = useContext(AuthContext);
+  const {state, signup} = useContext(AuthContext);
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const saveData = () => {
@@ -55,25 +55,27 @@ export default function Signup1({navigation}) {
         <Textfield
           title={'Enter email'}
           function={text => setemail(text)}
-          val={email}></Textfield>
+          val={email}
+        ></Textfield>
         <Text style={styles.text}>Password</Text>
         <Textfield
           title={'Enter password'}
           function={text => setpassword(text)}
-          val={password}></Textfield>
+          val={password}
+        ></Textfield>
 
         <Pressable
           style={styles.button}
           onPress={() => {
             // saveData();
-            signup({ email, password });
+            signup({email, password});
             navigation.navigate('Profile');
-          }}>
+          }}
+        >
           <Text style={styles.buttontext}>Sign-Up</Text>
         </Pressable>
-        <View style={{flexDirection:'row',marginTop:10}}>
-        <Text style={styles.text1}>
-          Already have an account?</Text>
+        <View style={{flexDirection: 'row', marginTop: 10}}>
+          <Text style={styles.text1}>Already have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles.text2}> Log-in </Text>
           </TouchableOpacity>
@@ -89,7 +91,6 @@ const styles = StyleSheet.create({
     marginTop: hp('12%'),
     borderTopStartRadius: 50,
     borderTopRightRadius: 50,
-   
   },
   heading: {
     marginTop: hp('2%'),
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: hp('7%'),
     width: wp('60%'),
-    padding:2,
+    padding: 2,
     marginTop: hp('7%'),
     marginBottom: hp('1%'),
     marginLeft: hp('8%'),

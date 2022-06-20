@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image, ImageBackground} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -10,39 +17,42 @@ import {Icon} from 'react-native-elements';
 const Interest = ({navigation}) => {
   const data = ['Basketball', 'Football', 'Volleyball', 'Hockey'];
   const [list, setList] = useState([]);
-  const [field,setfield]=useState('');
-  const addInterest=() => {
-   setList([...list,field]);
- // setList(l => [
- //   ...l,
- //   {
- //     field
- //   }
- // ]);
-  console.log(list)};
+  const [field, setfield] = useState('');
+  const addInterest = () => {
+    setList([...list, field]);
+    // setList(l => [
+    //   ...l,
+    //   {
+    //     field
+    //   }
+    // ]);
+    console.log(list);
+  };
 
-  const mainInterest =()=>{
+  const mainInterest = () => {
     var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Content-Type', 'application/json');
 
-var raw = JSON.stringify({
-  "name": list
-  
-});
+    var raw = JSON.stringify({
+      name: list,
+    });
 
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: raw,
-  redirect: 'follow'
-};
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
 
-fetch("https://omshukla.pythonanywhere.com/dashboard/interest/4/", requestOptions)
-  .then(response => response.json())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
-  }
-    
+    fetch(
+      'https://omshukla.pythonanywhere.com/dashboard/interest/4/',
+      requestOptions,
+    )
+      .then(response => response.json())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  };
+
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'column'}}>
@@ -57,7 +67,8 @@ fetch("https://omshukla.pythonanywhere.com/dashboard/interest/4/", requestOption
               marginRight: hp('35%'),
               marginTop: hp('5%'),
             }}
-            source={require('../assets/left.png')}></Image>
+            source={require('../assets/left.png')}
+          ></Image>
         </TouchableOpacity>
       </View>
       <View style={styles.container1}>
@@ -106,7 +117,6 @@ fetch("https://omshukla.pythonanywhere.com/dashboard/interest/4/", requestOption
                     setfield(selectedItem);
                     addInterest();
                   }}
-
                   defaultButtonText="Basketball"
                 />
               </View>
@@ -182,21 +192,23 @@ fetch("https://omshukla.pythonanywhere.com/dashboard/interest/4/", requestOption
                   defaultButtonText="Basketball"
                 />
               </View>
-              
             </View>
-            
           </View>
           <TouchableOpacity
-            onPress={() =>{mainInterest();navigation.navigate('OtherInterests')}}>
+            onPress={() => {
+              mainInterest();
+              navigation.navigate('OtherInterests');
+            }}
+          >
             <ImageBackground
               style={{
                 height: 50,
                 width: 50,
                 marginLeft: hp('40%'),
                 marginTop: hp('15%'),
-
               }}
-              source={require('../assets/next.png')}></ImageBackground>
+              source={require('../assets/next.png')}
+            ></ImageBackground>
           </TouchableOpacity>
         </View>
       </View>
