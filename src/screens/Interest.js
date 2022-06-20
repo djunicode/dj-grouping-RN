@@ -12,10 +12,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import SelectDropdown from 'react-native-select-dropdown';
-import {Icon} from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Interest = ({navigation}) => {
   const data = ['Basketball', 'Football', 'Volleyball', 'Hockey'];
+  
   const [list, setList] = useState([]);
   const [field, setfield] = useState('');
   const addInterest = () => {
@@ -29,7 +30,9 @@ const Interest = ({navigation}) => {
     console.log(list);
   };
 
-  const mainInterest = () => {
+  const mainInterest = async () => {
+    const value = await AsyncStorage.getItem('@user_output');
+    console.log(value)
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
 
@@ -45,7 +48,7 @@ const Interest = ({navigation}) => {
     };
 
     fetch(
-      'https://omshukla.pythonanywhere.com/dashboard/interest/4/',
+      `https://omshukla.pythonanywhere.com/dashboard/interest/${value}/`,
       requestOptions,
     )
       .then(response => response.json())

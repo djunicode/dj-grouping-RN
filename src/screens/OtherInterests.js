@@ -4,6 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const OtherInterests = ({navigation}) => {
   const Interests = [
@@ -18,6 +19,7 @@ const OtherInterests = ({navigation}) => {
     'painting',
     'travelling',
   ];
+
   const [list, setList] = useState([]);
   const [field, setfield] = useState('');
   const addInterest = () => {
@@ -25,7 +27,8 @@ const OtherInterests = ({navigation}) => {
     console.log(list);
   };
 
-  const Interest = () => {
+  const Interest = async () => {
+    const value = await AsyncStorage.getItem('@user_output');
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
 
@@ -41,7 +44,7 @@ const OtherInterests = ({navigation}) => {
     };
 
     fetch(
-      'https://omshukla.pythonanywhere.com/dashboard/interest/4/',
+      `https://omshukla.pythonanywhere.com/dashboard/interest/${value}/`,
       requestOptions,
     )
       .then(response => response.json())
@@ -67,7 +70,7 @@ const OtherInterests = ({navigation}) => {
           ></Image>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Tabs')}>
-          <Text style={styles.skip}>Skip</Text>
+          {/* <Text style={styles.skip}>Skip</Text> */}
         </TouchableOpacity>
       </View>
       <View style={styles.container1}>

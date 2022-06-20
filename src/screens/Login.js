@@ -25,7 +25,7 @@ export default function Login({navigation}) {
   const [user, setUser] = useState();
   const [data, setdata] = useState([]);
   const STORAGE_KEY = '@user_input';
-  const {state, signin} = useContext(AuthContext);
+  // const {state, signin} = useContext(AuthContext);
   const saveData = async () => {
     var myHeaders = new Headers();
     myHeaders.append(
@@ -103,8 +103,8 @@ export default function Login({navigation}) {
         <Pressable
           style={styles.button}
           onPress={() => {
-            // saveData();
-            signin({email, password});
+          saveData();
+            // signin({email, password});
             // saveToasync();
             navigation.navigate('Profile');
           }}

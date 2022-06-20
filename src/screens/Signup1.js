@@ -18,7 +18,7 @@ import {
 import {Context as AuthContext} from '../context/AuthContext';
 
 export default function Signup1({navigation}) {
-  const {state, signup} = useContext(AuthContext);
+  // const {state, signup} = useContext(AuthContext);
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const saveData = () => {
@@ -67,8 +67,8 @@ export default function Signup1({navigation}) {
         <Pressable
           style={styles.button}
           onPress={() => {
-            // saveData();
-            signup({email, password});
+            saveData();
+            // signup({email, password});
             navigation.navigate('Profile');
           }}
         >
