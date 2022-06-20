@@ -95,43 +95,49 @@ export default function Profile({navigation}) {
     console.log(bio);
     console.log(value);
     console.log(fileResponse);
+    // var myHeaders = new Headers();
+    // myHeaders.append(
+    //   'Cookie',
+    //   'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg',
+    // );
+    // myHeaders.append(
+    //   'Content-Type',
+    //   'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
+    // );
+
     var myHeaders = new Headers();
-    myHeaders.append(
-      'Cookie',
-      'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg',
-    );
-    myHeaders.append(
-      'Content-Type',
-      'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
-    );
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
 
-    var formdata = new FormData();
-    formdata.append('first_name', 'omm');
-    formdata.append('last_name', 'shaa');
-    formdata.append('branch', 'CS');
-    formdata.append('mobile_no', '+91 2267332684');
-    formdata.append('bio', 'opppp');
-    formdata.append('user', '16');
-    formdata.append('year_of_passing', '2024');
-    formdata.append('barcode', fileResponse);
 
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: formdata,
-      redirect: 'follow',
-    };
+var raw = JSON.stringify({
+  "first_name": "dish",
+  "last_name": "zaveri",
+  "branch": "scam",
+  "year_of_passing": 2024,
+  "mobile_no": "+914545454545",
+  "bio": "crbhai",
+  "user": 35,
+  "barcode": fileResponse
+});
 
-    await fetch(
-      'http://omshukla.pythonanywhere.com/dashboard/userprofile/',
-      requestOptions,
-    )
-      .then(response => {
-        response.json();
-        console.log(response.status);
-      })
-      .then(json => setdata1(json))
-      .catch(error => console.error(error));
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile/", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+      // .then(response => {
+      //   response.json();
+      //   console.log(response.status);
+      // })
+      // .then(json => setdata1(json))
+      // .catch(error => console.error(error));
   };
   console.log(data1);
 
