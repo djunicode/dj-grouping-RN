@@ -16,19 +16,17 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { Context as AuthContext } from '../context/AuthContext';
-
+import {Context as AuthContext} from '../context/AuthContext';
 
 export default function Login({navigation}) {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [tok, setTok] = useState();
-  const [user,setUser] = useState();
-  const [data, setdata]= useState([]);
+  const [user, setUser] = useState();
+  const [data, setdata] = useState([]);
   const STORAGE_KEY = '@user_input';
-  const { state, signin } = useContext(AuthContext);
+  const {state, signin} = useContext(AuthContext);
   const saveData = async () => {
-
     var myHeaders = new Headers();
     myHeaders.append(
       'Cookie',
@@ -49,33 +47,32 @@ export default function Login({navigation}) {
       'http://omshukla.pythonanywhere.com/accounts/login/',
       requestOptions,
     )
-  //   .then(response => response.text())
-  // .then(result => console.log(result))
-  // .catch(error => console.log('error', error));
+      //   .then(response => response.text())
+      // .then(result => console.log(result))
+      // .catch(error => console.log('error', error));
 
-  .then((response) => response.json())
-  .then((json) => {console.log(json);setdata(json);  
-    let v = json.user_id.toString();
-    console.log(typeof(v));
-    console.log(v)
-      AsyncStorage.setItem(STORAGE_KEY, v)
-  })
-  .catch((error) => console.error(error));
-  
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        setdata(json);
+        let v = json.user_id.toString();
+        console.log(typeof v);
+        console.log(v);
+        AsyncStorage.setItem(STORAGE_KEY, v);
+      })
+      .catch(error => console.error(error));
 
+    //  setTok(result.token);
 
-       //  setTok(result.token);
-     
-       
-        // console.log(STORAGE_KEY1);
+    // console.log(STORAGE_KEY1);
   };
   // console.log(data);
   // console.log(data.user_id);
   // console.log('bye');
- // console.log(STORAGE_KEY1);
+  // console.log(STORAGE_KEY1);
 
   //  const saveToasync = async () => {
-     
+
   //   try {
   //     await AsyncStorage.setItem(STORAGE_KEY, data.user_id)
   //     alert('Data successfully saved')
@@ -84,9 +81,7 @@ export default function Login({navigation}) {
   //   } catch (e) {
   //     alert('Failed to save the data to the storage')
   //   }
-  // } 
-
-
+  // }
 
   return (
     <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
@@ -96,31 +91,32 @@ export default function Login({navigation}) {
         <Textfield
           title={'Enter email'}
           function={text => setemail(text)}
-          val={email}></Textfield>
+          val={email}
+        ></Textfield>
         <Text style={styles.text}>Password</Text>
         <Textfield
           title={'Enter password'}
           function={text => setpassword(text)}
-          val={password}></Textfield>
+          val={password}
+        ></Textfield>
 
         <Pressable
           style={styles.button}
           onPress={() => {
             // saveData();
-            signin({ email, password });
+            signin({email, password});
             // saveToasync();
-         navigation.navigate('Profile');
-          }}>
+            navigation.navigate('Profile');
+          }}
+        >
           <Text style={styles.buttontext}>Sign-in</Text>
         </Pressable>
-        <View style={{flexDirection:'row',marginTop:10}}>
-        <Text style={styles.text1}>
-          Don't have an account? </Text>
-          <TouchableOpacity onPress={() =>  navigation.navigate('signup')}>
+        <View style={{flexDirection: 'row', marginTop: 10}}>
+          <Text style={styles.text1}>Don't have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('signup')}>
             <Text style={styles.text2}> Signup</Text>
           </TouchableOpacity>
-       </View>
-        
+        </View>
       </View>
     </View>
   );
@@ -158,7 +154,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: hp('7%'),
     width: wp('60%'),
-    padding:2,
+    padding: 2,
     marginTop: hp('7%'),
     marginBottom: hp('1%'),
     marginLeft: hp('8%'),

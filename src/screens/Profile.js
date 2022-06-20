@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,18 +9,18 @@ import {
   TextInput,
   Pressable,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import Textfield from '../components/Textfield';
 import SelectDropdown from 'react-native-select-dropdown';
 import ImagePicker from 'react-native-image-crop-picker';
-import DocumentPicker, { types } from 'react-native-document-picker';
+import DocumentPicker, {types} from 'react-native-document-picker';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-export default function Profile({ navigation }) {
+export default function Profile({navigation}) {
   const [uri, setUri] = useState(undefined);
   const [visible, setVisible] = useState(false);
   const [firstname, setFirstname] = useState('');
@@ -35,7 +35,8 @@ export default function Profile({ navigation }) {
   const [data1, setdata1] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [fileResponse, setFileResponse] = useState([]);
-  const barcode = 'http://omshukla.pythonanywhere.com/media/barcode/OmShukla2024_jeohCWG.jpeg'
+  const barcode =
+    'http://omshukla.pythonanywhere.com/media/barcode/OmShukla2024_jeohCWG.jpeg';
 
   const data = [
     'Select',
@@ -51,9 +52,7 @@ export default function Profile({ navigation }) {
       height: 400,
       cropping: true,
     }).then(image => {
-
       setUri(image.path);
-
     });
   };
   const openCamera = () => {
@@ -67,7 +66,7 @@ export default function Profile({ navigation }) {
         //props.onChange?.(image);
       })
       .finally(close);
-    console.log(uri)
+    console.log(uri);
   };
 
   const handleDocumentSelection = useCallback(async () => {
@@ -83,68 +82,70 @@ export default function Profile({ navigation }) {
     }
   }, []);
 
-
   const postProfile = async () => {
-
     const value = await AsyncStorage.getItem('@user_input');
-    console.log('hi')
-    console.log(value)
-    console.log('hi')
-    console.log(firstname)
-    console.log(lastname)
-    console.log(branch)
-    console.log(mobileno)
-    console.log(yearofpassing)
-    console.log(bio)
-    console.log(value)
-    console.log(fileResponse)
+    console.log('hi');
+    console.log(value);
+    console.log('hi');
+    console.log(firstname);
+    console.log(lastname);
+    console.log(branch);
+    console.log(mobileno);
+    console.log(yearofpassing);
+    console.log(bio);
+    console.log(value);
+    console.log(fileResponse);
     var myHeaders = new Headers();
-    myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
-    myHeaders.append("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
-
+    myHeaders.append(
+      'Cookie',
+      'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg',
+    );
+    myHeaders.append(
+      'Content-Type',
+      'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
+    );
 
     var formdata = new FormData();
-    formdata.append("first_name", "omm");
-    formdata.append("last_name", "shaa");
-    formdata.append("branch", "CS");
-    formdata.append("mobile_no", "+91 2267332684");
-    formdata.append("bio", "opppp");
-    formdata.append("user", "16");
-    formdata.append("year_of_passing", "2024");
-    formdata.append("barcode", fileResponse);
+    formdata.append('first_name', 'omm');
+    formdata.append('last_name', 'shaa');
+    formdata.append('branch', 'CS');
+    formdata.append('mobile_no', '+91 2267332684');
+    formdata.append('bio', 'opppp');
+    formdata.append('user', '16');
+    formdata.append('year_of_passing', '2024');
+    formdata.append('barcode', fileResponse);
 
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: formdata,
-      redirect: 'follow'
+      redirect: 'follow',
     };
 
-
-    await fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile/", requestOptions)
-      .then((response) => {response.json();console.log(response.status)})
-      .then((json) => setdata1(json))
-      .catch((error) => console.error(error));
-
-  }
+    await fetch(
+      'http://omshukla.pythonanywhere.com/dashboard/userprofile/',
+      requestOptions,
+    )
+      .then(response => {
+        response.json();
+        console.log(response.status);
+      })
+      .then(json => setdata1(json))
+      .catch(error => console.error(error));
+  };
   console.log(data1);
-
 
   return (
     <ScrollView>
-      <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
         <View style={styles.container}>
-
           <Text style={styles.heading}>Profile</Text>
 
-          <Pressable style={styles.button}
-            onPress={handleDocumentSelection}
-          >
+          <Pressable style={styles.button} onPress={handleDocumentSelection}>
             <Text style={styles.buttontext}>Scan Your Barcode id</Text>
           </Pressable>
 
-
-          <Text style={styles.text} >First Name:</Text>
+          <Text style={styles.text}>First Name:</Text>
           {/* <Textfield title={'Enter First Name'} onChangeText={firstname => onChangeText(firstname)}> </Textfield> */}
           <View style={styles.inputView}>
             <TextInput
@@ -156,7 +157,7 @@ export default function Profile({ navigation }) {
               value={firstname}
             />
           </View>
-          <Text style={styles.text} >Last Name:</Text>
+          <Text style={styles.text}>Last Name:</Text>
           {/* <Textfield title={'Enter Last Name'} onChangeText={setLastname}></Textfield> */}
           <View style={styles.inputView}>
             <TextInput
@@ -225,10 +226,12 @@ export default function Profile({ navigation }) {
             style={styles.button}
             //navigation.navigate('Interest')
 
-            onPress={() => { postProfile(), navigation.navigate('Interest') }}>
+            onPress={() => {
+              postProfile(), navigation.navigate('Interest');
+            }}
+          >
             <Text style={styles.buttontext}>Confirm Details</Text>
           </Pressable>
-
         </View>
       </View>
     </ScrollView>
@@ -307,7 +310,7 @@ const styles = StyleSheet.create({
   inputText: {
     //height: 50,
     color: 'white',
-    fontSize: 13
+    fontSize: 13,
   },
   inputView: {
     height: hp('6%'),
