@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,13 +9,14 @@ import {
   FlatList,
   Pressable,
 } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import StarRating from 'react-native-star-rating-widget';
 
-export default function QnA({navigation}) {
+export default function QnA({ navigation }) {
   const [ques, setques] = useState([]);
   const [rating, setRating] = useState(0);
   const [Ans, setAns] = useState([]);
@@ -69,7 +70,7 @@ export default function QnA({navigation}) {
   };
 
   console.log(ques);
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <View>
         <Text
@@ -89,12 +90,12 @@ export default function QnA({navigation}) {
           onChange={() => {
             setRating;
             //console.log(rating);
-            setAns([{quesinst: item.id, answer: rating, user: 4}, ...Ans]);
+            setAns([{ quesinst: item.id, answer: rating, user: 4 }, ...Ans]);
             sendans();
 
             // console.log(Ans);
           }}
-          // onChange={setRating}
+        // onChange={setRating}
         />
       </View>
     );
@@ -102,10 +103,12 @@ export default function QnA({navigation}) {
   console.log(rating);
   console.log(Ans);
   return (
+    <ScrollView>
     <View style={styles.container}>
+
       <FlatList
         data={ques}
-        keyExtractor={({id}) => id}
+        keyExtractor={({ id }) => id}
         contentContainerStyle={{}}
         renderItem={renderItem}
       />
@@ -117,7 +120,10 @@ export default function QnA({navigation}) {
       >
         <Text style={styles.buttontext}>Proceed</Text>
       </Pressable>
+
+
     </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
@@ -131,6 +137,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
     height: hp('7%'),
     width: wp('60%'),
     padding: 2,

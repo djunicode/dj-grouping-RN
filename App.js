@@ -62,6 +62,7 @@ import QnA from './src/screens/QnA';
 import Signup1 from './src/screens/Signup1.js';
 
 const AuthStack = createStackNavigator();
+console.disableYellowBox = true;
 
 const Stack = createStackNavigator();
 function App() {
@@ -97,6 +98,11 @@ function App() {
         <AuthStack.Screen
           name="Profile"
           component={Profile}
+          options={{headerShown: false}}
+        />
+            <AuthStack.Screen
+          name="Tabs"
+          component={Tabs}
           options={{headerShown: false}}
         />
       </AuthStack.Navigator>
