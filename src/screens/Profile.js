@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,21 +9,22 @@ import {
   TextInput,
   Pressable,
   TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 import Textfield from '../components/Textfield';
 import SelectDropdown from 'react-native-select-dropdown';
 import ImagePicker from 'react-native-image-crop-picker';
-import DocumentPicker, {types} from 'react-native-document-picker';
+import DocumentPicker, { types } from 'react-native-document-picker';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-export default function Profile({navigation}) {
+import { ScrollView } from 'react-native-gesture-handler';
+export default function Profile({ navigation }) {
   const [uri, setUri] = useState(undefined);
   const [visible, setVisible] = useState(false);
   const [firstname, setFirstname] = useState('');
+  const [sapid, setSapid] = useState('');
   const [lastname, setLastname] = useState('');
   const [branch, setBranch] = useState('');
   const [yearofpassing, setYearofpassing] = useState('');
@@ -33,11 +34,10 @@ export default function Profile({navigation}) {
   const close = () => setVisible(false);
   const open = () => setVisible(true);
   const [data1, setdata1] = useState([]);
+  const [data2, setData2] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [fileResponse, setFileResponse] = useState([]);
-  const barcode =
-    'http://omshukla.pythonanywhere.com/media/barcode/OmShukla2024_jeohCWG.jpeg';
-
+  const STORAGE_KEY = '@user_output';
   const data = [
     'Select',
     'Computer Engineering',
@@ -86,7 +86,6 @@ export default function Profile({navigation}) {
     const value = await AsyncStorage.getItem('@user_input');
     console.log('hi');
     console.log(value);
-    console.log('hi');
     console.log(firstname);
     console.log(lastname);
     console.log(branch);
@@ -95,61 +94,52 @@ export default function Profile({navigation}) {
     console.log(bio);
     console.log(value);
     console.log(fileResponse);
-    // var myHeaders = new Headers();
-    // myHeaders.append(
-    //   'Cookie',
-    //   'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg',
-    // );
-    // myHeaders.append(
-    //   'Content-Type',
-    //   'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
-    // );
-
     var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Cookie", "csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg");
 
+    var raw = JSON.stringify({
+      "first_name": firstname,
+      "last_name": lastname,
+      "branch": branch,
+      "year_of_passing": yearofpassing,
+      "mobile_no": mobileno,
+      "bio": "crbhai",
+      "user": value,
+      "sap_id": sapid,
+    });
 
-var raw = JSON.stringify({
-  "first_name": "dish",
-  "last_name": "zaveri",
-  "branch": "scam",
-  "year_of_passing": 2024,
-  "mobile_no": "+914545454545",
-  "bio": "crbhai",
-  "user": 35,
-  "barcode": fileResponse
-});
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
 
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: raw,
-  redirect: 'follow'
-};
+    fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile/", requestOptions)
+    .then(response => response.json())
+    .then(json => {
+      console.log(json);
+      setData2(json);
+      let v = json.id.toString();
+      console.log(typeof v);
+      console.log(v);
+      AsyncStorage.setItem(STORAGE_KEY, v);
+    })
+    .catch(error => console.error(error));
 
-fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile/", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
-      // .then(response => {
-      //   response.json();
-      //   console.log(response.status);
-      // })
-      // .then(json => setdata1(json))
-      // .catch(error => console.error(error));
   };
   console.log(data1);
 
   return (
     <ScrollView>
-      <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+      <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
         <View style={styles.container}>
           <Text style={styles.heading}>Profile</Text>
 
-          <Pressable style={styles.button} onPress={handleDocumentSelection}>
+          {/* <Pressable style={styles.button} onPress={handleDocumentSelection}>
             <Text style={styles.buttontext}>Scan Your Barcode id</Text>
-          </Pressable>
+          </Pressable> */}
 
           <Text style={styles.text}>First Name:</Text>
           {/* <Textfield title={'Enter First Name'} onChangeText={firstname => onChangeText(firstname)}> </Textfield> */}
@@ -175,16 +165,18 @@ fetch("http://omshukla.pythonanywhere.com/dashboard/userprofile/", requestOption
               value={lastname}
             />
           </View>
-          {/* <Text style={styles.text}>Sap-id:</Text> */}
+          <Text style={styles.text}>Sap-id:</Text>
           {/* <Textfield title={'Enter Sap-id'} ></Textfield> */}
-          {/* <View style={styles.inputView}>
-              <TextInput
-                style={styles.inputText}
-                autoCapitalize="none"
-                placeholder="Enter Sap-id"
-                placeholderTextColor="#768991"
-              />
-            </View> */}
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              placeholder="Enter Sap-id"
+              placeholderTextColor="#768991"
+              value={sapid}
+              onChangeText={setSapid}
+            />
+          </View>
           <Text style={styles.text}>Graduating Year:</Text>
           {/* <Textfield title={'Enter Graduating Year'} onChangeText={setYearofpassing}></Textfield> */}
           <View style={styles.inputView}>

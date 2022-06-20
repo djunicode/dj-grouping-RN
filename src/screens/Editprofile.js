@@ -16,6 +16,7 @@ import Textfield from '../components/Textfield';
 import SelectDropdown from 'react-native-select-dropdown';
 import {launchImageLibrary} from 'react-native-image-picker';
 import profile from '../assets/profile.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -70,44 +71,45 @@ export default function Editpofile({navigation}) {
     getProfile();
   }, []);
 
-  const editProfile = async () => {
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append(
-      'Cookie',
-      'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg',
-    );
+  // const editProfile = async () => {
+  //   var myHeaders = new Headers();
+  //   myHeaders.append('Content-Type', 'application/json');
+  //   myHeaders.append(
+  //     'Cookie',
+  //     'csrftoken=jmsQLbzxHJFW9b3clnHucst1Xyw2xi4VTAnMZbW5EMzKP3imwnoXTWLAkofL4Sjg',
+  //   );
 
-    var raw = JSON.stringify({
-      first_name: 'ombhai',
-      last_name: 'shookla',
-      branch: 'scam',
-      year_of_passing: 2025,
-      sap_id: '60004200072',
-      mobile_no: '+911234512345',
-      bio: 'crbhai',
-      user: 1,
-      barcode:
-        'http://omshukla.pythonanywhere.com/media/barcode/OmShukla2024_jeohCWG.jpeg',
-    });
+  //   var raw = JSON.stringify({
+  //     first_name: 'synapse',
+  //     last_name: 'sapio',
+  //     branch: 'scam',
+  //     year_of_passing: 2025,
+  //     sap_id: '60004200072',
+  //     mobile_no: '+911234512345',
+  //     bio: 'crbhai',
+  //     user: 39,
+  //     barcode:
+  //       'http://omshukla.pythonanywhere.com/media/barcode/OmShukla2024_jeohCWG.jpeg',
+  //   });
 
-    var requestOptions = {
-      method: 'PATCH',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
+  //   var requestOptions = {
+  //     method: 'PATCH',
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: 'follow',
+  //   };
 
-    fetch(
-      'http://omshukla.pythonanywhere.com/dashboard/userprofile-update/4/',
-      requestOptions,
-    )
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-  };
+  //   fetch(
+  //     'http://omshukla.pythonanywhere.com/dashboard/userprofile-update/4/',
+  //     requestOptions,
+  //   )
+  //     .then(response => response.text())
+  //     .then(result => console.log(result))
+  //     .catch(error => console.log('error', error));
+  // };
 
   const getProfile = async () => {
+    const value = await AsyncStorage.getItem('@user_output');
     var myHeaders = new Headers();
     myHeaders.append(
       'Cookie',
@@ -121,7 +123,7 @@ export default function Editpofile({navigation}) {
     };
 
     fetch(
-      'http://omshukla.pythonanywhere.com//dashboard/userprofile-update/4/',
+      `http://omshukla.pythonanywhere.com//dashboard/userprofile-update/${value}/`,
       requestOptions,
     )
       .then(response => response.json())
